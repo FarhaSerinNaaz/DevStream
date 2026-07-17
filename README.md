@@ -33,6 +33,43 @@ The project demonstrates workflow automation, AI integration, database persisten
 
 ## Architecture Diagram
 
-> **Current Trigger:** Postman (Phase 1 - Testing)
+```mermaid
+flowchart TD
+
+A["API Failure Event"]
+B["Receive Failure Event"]
+C["Validate Payload"]
+D["Calculate Severity"]
+E["Log API Failure"]
+F["Analyze Failure (Gemini AI)"]
+G["Parse AI Response"]
+H["Store AI Analysis"]
+I["Update AI Status"]
+J{"HIGH Severity?"}
+K["Notify Engineer (Email)"]
+L["End"]
+M[("Neon PostgreSQL")]
+
+A --> B
+B --> C
+C --> D
+D --> E
+
+E -->|"Save Failure Log"| M
+
+E --> F
+F --> G
+G --> H
+
+H -->|"Save AI Analysis"| M
+
+H --> I
+I --> J
+
+J -->|Yes| K
+J -->|No| L
+```
+
+> **Current Trigger:** Postman (Phase 1 – Testing)
 >
 > **Planned Trigger:** Spring Boot Microservice (Phase 2)
