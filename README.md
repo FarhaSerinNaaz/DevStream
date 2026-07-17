@@ -30,3 +30,9 @@ The project demonstrates workflow automation, AI integration, database persisten
 | API Testing | Postman |
 | Version Control | GitHub |
 | Future Event Source | Spring Boot Microservice |
+
+## Architecture Diagram
+
+> **Current Trigger:** Postman (Phase 1 - Testing)
+>
+> **Planned Trigger:** Spring Boot Microservice (Phase 2)
