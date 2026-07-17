@@ -137,3 +137,21 @@ Example request:
 }
 ```
 
+## Setup Guide
+
+### Prerequisites
+
+- n8n Cloud
+- Google Gemini API Key
+- Neon PostgreSQL Database
+- Gmail Account
+- Postman (for Phase 1 testing)
+
+### Steps
+
+1. Clone this repository.
+2. Import the n8n workflow.
+3. Configure Gemini API credentials.
+4. Configure Neon PostgreSQL credentials.
+5. Configure Gmail credentials.
+6. Execute the workflow using the sample payload.
