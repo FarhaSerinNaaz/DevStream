@@ -73,3 +73,9 @@ J -->|No| L
 > **Current Trigger:** Postman (Phase 1 – Testing)
 >
 > **Planned Trigger:** Spring Boot Microservice (Phase 2)
+
+## Workflow Screenshot
+
+The following screenshot shows the complete implementation of the AI-powered incident monitoring pipeline in **n8n**.
+
+![DevStream Workflow](images/workflow.png)
