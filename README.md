@@ -13,7 +13,20 @@ The project automates API failure handling by receiving failure events, validati
 
 It demonstrates workflow automation, AI integration, database persistence, and event-driven incident management in a backend engineering scenario.
 
+## Project Flow
 
+```text
+API Failure
+      │
+      ▼
+Webhook
+      ▼
+AI Analysis
+      ▼
+PostgreSQL
+      ▼
+Email Notification
+```
 
 ## Features
 
@@ -210,3 +223,6 @@ Phase 1 – AI-powered incident monitoring workflow using Postman for event simu
 
 Integrate a Spring Boot microservice to automatically report API failures to the n8n workflow.
 
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
