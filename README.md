@@ -15,7 +15,7 @@ The project demonstrates workflow automation, AI integration, database persisten
 - PostgreSQL persistence for API failures and AI analysis
 - Conditional email notifications for HIGH-severity incidents
 - Workflow automation using **n8n**
-- Structured storage of AI-generated recommendations
+- Structured storage of AI-generated analysis and recommendations
 - Extensible architecture for future Spring Boot integration
 
 ## Tech Stack
@@ -29,4 +29,4 @@ The project demonstrates workflow automation, AI integration, database persisten
 | Notification | Gmail |
 | API Testing | Postman |
 | Version Control | GitHub |
-| Future Integration | Spring Boot |
+| Future Event Source | Spring Boot Microservice |
