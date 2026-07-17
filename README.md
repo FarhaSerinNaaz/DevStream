@@ -118,3 +118,22 @@ ai_analysis {
 Each API failure is stored first in `api_failure_logs`.
 
 After AI processing, the generated root cause analysis, Java fix recommendations, confidence score, and other outputs are stored in `ai_analysis` using the corresponding `failure_id`.
+
+## Sample API Payload
+
+The workflow receives API failure events through an HTTP Webhook.
+
+Example request:
+
+```json
+{
+  "serviceName": "Order Service",
+  "endpoint": "/api/orders",
+  "httpMethod": "POST",
+  "statusCode": 500,
+  "responseTimeMs": 2400,
+  "errorMessage": "NullPointerException while creating order",
+  "stackTrace": "java.lang.NullPointerException..."
+}
+```
+
