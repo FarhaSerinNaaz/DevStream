@@ -5,6 +5,8 @@
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+An AI-powered incident monitoring pipeline that automates API failure analysis, stores AI-generated insights in PostgreSQL, and notifies engineers of critical incidents.
+
 ## Project Overview
 
 DevStream is an AI-powered incident monitoring pipeline built using **n8n**, **Gemini AI**, and **Neon PostgreSQL**.
@@ -222,6 +224,13 @@ Phase 1 – AI-powered incident monitoring workflow using Postman for event simu
 **Next Phase**
 
 Integrate a Spring Boot microservice to automatically report API failures to the n8n workflow.
+
+## Repository Contents
+
+- `workflow/` – n8n workflow export
+- `database/` – PostgreSQL schema and sample data
+- `images/` – Architecture and workflow screenshots
+- `README.md` – Project documentation
 
 ## License
 
