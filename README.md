@@ -13,20 +13,7 @@ The project automates API failure handling by receiving failure events, validati
 
 It demonstrates workflow automation, AI integration, database persistence, and event-driven incident management in a backend engineering scenario.
 
-## Project Flow
 
-```text
-API Failure
-      │
-      ▼
-Webhook
-      ▼
-AI Analysis
-      ▼
-PostgreSQL
-      ▼
-Email Notification
-```
 
 ## Features
 
