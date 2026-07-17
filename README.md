@@ -17,3 +17,16 @@ The project demonstrates workflow automation, AI integration, database persisten
 - Workflow automation using **n8n**
 - Structured storage of AI-generated recommendations
 - Extensible architecture for future Spring Boot integration
+
+## Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| Workflow Automation | n8n |
+| AI Model | Gemini AI |
+| Database | Neon PostgreSQL |
+| Database Engine | PostgreSQL |
+| Notification | Gmail |
+| API Testing | Postman |
+| Version Control | GitHub |
+| Future Integration | Spring Boot |
