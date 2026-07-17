@@ -155,3 +155,14 @@ Example request:
 4. Configure Neon PostgreSQL credentials.
 5. Configure Gmail credentials.
 6. Execute the workflow using the sample payload.
+
+## Future Enhancements
+
+- Replace Postman with Spring Boot Microservice
+- Add Slack notifications
+- Integrate Jira incident creation
+- Build a monitoring dashboard
+- Add incident analytics
+- Implement retry recommendations
+- Search similar historical incidents
+- Containerize the solution using Docker
