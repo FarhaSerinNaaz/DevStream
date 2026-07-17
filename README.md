@@ -5,7 +5,7 @@
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-An AI-powered incident monitoring pipeline that automates API failure analysis, stores AI-generated insights in PostgreSQL, and notifies engineers of critical incidents.
+AI-powered incident monitoring pipeline built with n8n, Gemini AI, and PostgreSQL to automate API failure analysis and engineer notifications.
 
 ## Project Overview
 
