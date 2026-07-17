@@ -4,9 +4,20 @@
 
 DevStream is an AI-powered incident monitoring pipeline built using **n8n**, **Gemini AI**, and **Neon PostgreSQL**.
 
-The workflow receives API failure events, validates incoming requests, calculates incident severity, performs AI-assisted root cause analysis, stores incident data and AI recommendations in PostgreSQL, and sends email notifications for high-severity incidents.
+The project automates API failure handling by receiving failure events, validating requests, calculating incident severity, generating AI-assisted root cause analysis, storing incident data in PostgreSQL, and notifying engineers about high-severity incidents.
 
-The project demonstrates workflow automation, AI integration, database persistence, and incident management in a backend monitoring scenario.
+It demonstrates workflow automation, AI integration, database persistence, and event-driven incident management in a backend engineering scenario.
+
+API Failure
+      │
+      ▼
+Webhook
+      ▼
+AI Analysis
+      ▼
+PostgreSQL
+      ▼
+Email Notification
 
 ## Features
 
@@ -143,26 +154,55 @@ Example request:
 
 - n8n Cloud
 - Google Gemini API Key
-- Neon PostgreSQL Database
+- Neon PostgreSQL
 - Gmail Account
-- Postman (for Phase 1 testing)
+- Postman
 
-### Steps
+### Installation
 
-1. Clone this repository.
-2. Import the n8n workflow.
-3. Configure Gemini API credentials.
-4. Configure Neon PostgreSQL credentials.
-5. Configure Gmail credentials.
-6. Execute the workflow using the sample payload.
+1. Clone the repository.
+2. Create the PostgreSQL tables using the SQL scripts.
+3. Import the n8n workflow JSON.
+4. Configure the Gemini API credentials.
+5. Configure PostgreSQL credentials.
+6. Configure Gmail credentials.
+7. Activate the workflow.
+8. Send the sample payload using Postman.
+9. Verify the AI analysis and database entries.
 
 ## Future Enhancements
 
+### Phase 2
+
 - Replace Postman with Spring Boot Microservice
-- Add Slack notifications
-- Integrate Jira incident creation
-- Build a monitoring dashboard
-- Add incident analytics
-- Implement retry recommendations
-- Search similar historical incidents
-- Containerize the solution using Docker
+- Automatic failure reporting
+- Exception handling integration
+
+### Planned Improvements
+
+- Slack notifications
+- Jira integration
+- Monitoring dashboard
+- Incident analytics
+- Retry recommendations
+- Historical incident search
+- Docker deployment
+
+## Project Structure
+
+DevStream/
+│
+├── README.md
+├── workflow/
+├── database/
+├── images/
+└── LICENSE
+
+## Project Status
+
+Current Phase:
+Phase 1 – AI-powered workflow implementation using Postman.
+
+Next Phase:
+Replace Postman with Spring Boot microservices for automatic incident reporting.
+
