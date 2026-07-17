@@ -79,3 +79,42 @@ J -->|No| L
 The following screenshot shows the complete implementation of the AI-powered incident monitoring pipeline in **n8n**.
 
 ![DevStream Workflow](images/workflow.png)
+
+## Database Schema
+
+The project uses **Neon PostgreSQL** to store both raw API failure events and AI-generated incident analysis.
+
+The database consists of two primary tables:
+
+| Table | Purpose |
+|-------|---------|
+| `api_failure_logs` | Stores API failure details received by the workflow |
+| `ai_analysis` | Stores AI-generated analysis linked to each API failure |
+
+```mermaid
+erDiagram
+
+api_failure_logs ||--o{ ai_analysis : analyzes
+
+api_failure_logs {
+    int failure_id PK
+    string service_name
+    string endpoint
+    int status_code
+    string severity
+    string ai_status
+}
+
+ai_analysis {
+    int analysis_id PK
+    int failure_id FK
+    string root_cause
+    string java_fix
+    string recommended_action
+    float confidence_score
+}
+```
+
+Each API failure is stored first in `api_failure_logs`.
+
+After AI processing, the generated root cause analysis, Java fix recommendations, confidence score, and other outputs are stored in `ai_analysis` using the corresponding `failure_id`.
