@@ -126,6 +126,8 @@ The following screenshot shows the complete implementation of the AI-powered inc
 
 The project uses **Neon PostgreSQL** to store both raw API failure events and AI-generated incident analysis.
 
+The following diagram presents a simplified view of the primary database fields and relationships.
+
 The database consists of two primary tables:
 
 | Table | Purpose |
@@ -136,7 +138,7 @@ The database consists of two primary tables:
 ```mermaid
 erDiagram
 
-api_failure_logs ||--o{ ai_analysis : analyzes
+api_failure_logs ||--o| ai_analysis : has
 
 api_failure_logs {
     int failure_id PK
