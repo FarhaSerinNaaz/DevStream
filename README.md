@@ -185,7 +185,7 @@ Example request:
 
 ### Prerequisites
 
-- n8n Cloud
+- n8n Cloud or self-hosted n8n
 - Google Gemini API Key
 - Neon PostgreSQL
 - Gmail Account
@@ -202,6 +202,27 @@ Example request:
 7. Activate the workflow.
 8. Send the sample payload using Postman.
 9. Verify the AI analysis and database entries.
+
+## Security
+
+This repository intentionally excludes all secrets and sensitive credentials.
+
+The exported n8n workflow contains only references to credentials—not the actual values.
+
+After importing the workflow, configure your own credentials in n8n for:
+
+- Google Gemini API
+- Neon PostgreSQL
+- Gmail OAuth
+
+Never commit:
+
+- API keys
+- Database passwords
+- Connection strings
+- OAuth tokens
+- `.env` files
+- Exported credentials
 
 ## Future Enhancements
 
