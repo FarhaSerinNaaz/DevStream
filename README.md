@@ -85,7 +85,8 @@ I["Update AI Status"]
 J{"HIGH Severity?"}
 K["Notify Engineer (Email)"]
 L["End"]
-M[("Neon PostgreSQL")]
+M[("Neon PostgreSQL
+Monitoring Database")]
 
 A --> B
 B --> C
@@ -134,7 +135,7 @@ The following screenshot shows the complete implementation of the AI-powered inc
    - Best practice
    - Confidence score
 5. AI analysis is stored in PostgreSQL.
-6. HIGH severity incidents trigger an automated email notification.
+6. HIGH severity incidents trigger an automated email notification to the designated engineer.
 
 ## Database Schema
 
