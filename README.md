@@ -18,16 +18,31 @@ It demonstrates workflow automation, AI integration, database persistence, and e
 ## Project Flow
 
 ```text
-API Failure
+API Failure Event
       │
       ▼
 Webhook
+      │
       ▼
-AI Analysis
+Payload Validation
+      │
       ▼
-PostgreSQL
+Severity Calculation
+      │
       ▼
-Email Notification
+PostgreSQL Failure Log
+      │
+      ▼
+Gemini AI Analysis
+      │
+      ▼
+Store AI Analysis
+      │
+      ▼
+HIGH Severity?
+      │
+      ▼
+Engineer Notification
 ```
 
 ## Features
@@ -86,15 +101,20 @@ G --> H
 H -->|"Save AI Analysis"| M
 
 H --> I
+I -->|"Update Processing Status"| M
 I --> J
 
 J -->|Yes| K
 J -->|No| L
 ```
 
-> **Current Trigger:** Postman (Phase 1 – Testing)
+```markdown
+> **Current Event Source:** Postman for API failure simulation
 >
-> **Planned Trigger:** Spring Boot Microservice (Phase 2)
+> **Workflow Trigger:** n8n HTTP Webhook
+>
+> **Planned Event Source:** Spring Boot Microservice (Phase 2)
+```
 
 ## Workflow Screenshot
 
