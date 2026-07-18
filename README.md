@@ -108,19 +108,33 @@ J -->|Yes| K
 J -->|No| L
 ```
 
-```markdown
 > **Current Event Source:** Postman for API failure simulation
 >
 > **Workflow Trigger:** n8n HTTP Webhook
 >
 > **Planned Event Source:** Spring Boot Microservice (Phase 2)
-```
 
 ## Workflow Screenshot
 
 The following screenshot shows the complete implementation of the AI-powered incident monitoring pipeline in **n8n**.
 
 ![DevStream Workflow](images/workflow.png)
+
+## Demo
+
+### Sample Workflow Execution
+
+1. API failure event is sent using Postman.
+2. n8n validates the payload and calculates severity.
+3. Failure details are stored in Neon PostgreSQL.
+4. Gemini AI analyzes the incident and generates:
+   - Root cause
+   - Java fix recommendation
+   - Unit test suggestion
+   - Best practice
+   - Confidence score
+5. AI analysis is stored in PostgreSQL.
+6. HIGH severity incidents trigger an automated email notification.
 
 ## Database Schema
 
