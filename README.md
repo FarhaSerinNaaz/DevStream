@@ -85,24 +85,24 @@ I["Update AI Status"]
 J{"HIGH Severity?"}
 K["Notify Engineer (Email)"]
 L["End"]
-M[("Neon PostgreSQL
-Monitoring Database")]
+M["Neon PostgreSQL
+(api_failure_logs, ai_analysis)"]
 
 A --> B
 B --> C
 C --> D
 D --> E
 
-E -->|"Save Failure Log"| M
+E -.->|"Save Failure Log"| M
 
 E --> F
 F --> G
 G --> H
 
-H -->|"Save AI Analysis"| M
+H -.->|"Save AI Analysis"| M
 
 H --> I
-I -->|"Update Processing Status"| M
+I -.->|"Update Processing Status"| M
 I --> J
 
 J -->|Yes| K
@@ -120,6 +120,8 @@ J -->|No| L
 The following screenshot shows the complete implementation of the AI-powered incident monitoring pipeline in **n8n**.
 
 ![DevStream Workflow](images/workflow.png)
+
+The workflow validates incoming API failures, performs AI-assisted incident analysis, persists the results in Neon PostgreSQL, and notifies engineers for HIGH-severity incidents.
 
 ## Demo
 
