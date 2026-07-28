@@ -145,12 +145,12 @@ Release 2 delivers the following enhancements:
 
 ## References
 
-- Architecture Documentation (`architecture.md`)
-- Workflow Documentation (`workflow.md`)
-- Database Documentation (`database.md`)
-- API Documentation (`api.md`)
-- Engineering Decisions (`engineering-decisions.md`)
-- Root Repository README (../README.md)
+- [Root Repository README](../../README.md)
+- [Architecture Documentation](architecture.md)
+- [Workflow Documentation](workflow.md)
+- [Database Documentation](database.md)
+- [API Documentation](api.md)
+- [Engineering Decisions](engineering-decisions.md)
 
  ## Document Purpose
 
