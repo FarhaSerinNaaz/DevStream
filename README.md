@@ -1,5 +1,12 @@
 # DevStream
 
+![Release](https://img.shields.io/badge/Release-v2-blue)
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791)
+![n8n](https://img.shields.io/badge/n8n-Workflow-EA4B71)
+![License](https://img.shields.io/badge/License-MIT-green)
+
 > DevStream is an AI-powered backend incident monitoring platform that automates the analysis of failed API requests through workflow orchestration, AI-assisted analysis, and persistent monitoring.
 
 ---
