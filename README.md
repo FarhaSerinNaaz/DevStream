@@ -1,297 +1,171 @@
-# DevStream – AI-Powered Incident Monitoring Pipeline
+# DevStream
 
-![n8n](https://img.shields.io/badge/n8n-Workflow-orange)
-![Gemini AI](https://img.shields.io/badge/AI-Gemini-blue)
-![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+> AI-powered backend incident monitoring platform that automates API failure analysis, accelerates debugging, and helps engineering teams respond to production issues faster.
 
-AI-powered incident monitoring pipeline built with n8n, Gemini AI, and PostgreSQL to automate API failure analysis and engineer notifications.
+---
 
-## Project Overview
+## Overview
 
-DevStream is an AI-powered incident monitoring pipeline built using **n8n**, **Gemini AI**, and **Neon PostgreSQL**.
+DevStream is an AI-powered backend incident monitoring platform designed to automate the analysis of failed API requests.
 
-The project automates API failure handling by receiving failure events, validating requests, calculating incident severity, generating AI-assisted root cause analysis, storing incident data in PostgreSQL, and notifying engineers about high-severity incidents.
+The platform integrates a Spring Boot backend with an n8n workflow to capture API failures, validate incoming requests, generate AI-powered analysis using Google Gemini, store monitoring data in PostgreSQL, and send email notifications based on incident severity.
 
-It demonstrates workflow automation, AI integration, database persistence, and event-driven incident management in a backend engineering scenario.
+By combining backend engineering, workflow automation, artificial intelligence, and persistent data storage, DevStream transforms a traditionally manual debugging process into a structured, repeatable, and scalable monitoring solution.
 
-## Project Flow
+---
 
-```text
-API Failure Event
-      │
-      ▼
-Webhook
-      │
-      ▼
-Payload Validation
-      │
-      ▼
-Severity Calculation
-      │
-      ▼
-PostgreSQL Failure Log
-      │
-      ▼
-Gemini AI Analysis
-      │
-      ▼
-Store AI Analysis
-      │
-      ▼
-HIGH Severity?
-      │
-      ▼
-Engineer Notification
-```
+## Business Problem
 
-## Features
+Modern applications rely on APIs to connect services, exchange data, and power business operations. When an API request fails, engineers often need to manually inspect logs, request payloads, error messages, and system responses before identifying the root cause.
 
-- AI-assisted root cause analysis using **Gemini AI**
-- Automated incident severity calculation
-- PostgreSQL persistence for API failures and AI analysis
-- Conditional email notifications for HIGH-severity incidents
-- Workflow automation using **n8n**
-- Structured storage of AI-generated analysis and recommendations
-- Extensible architecture for future Spring Boot integration
+This investigation process is repetitive, time-consuming, and difficult to scale, especially when similar failures occur across multiple services. As applications grow, manual analysis increases operational effort and delays incident resolution.
 
-## Tech Stack
+Engineering teams need an automated approach that captures failure information, performs consistent AI-assisted analysis, stores investigation results, and delivers actionable insights without disrupting existing development workflows.
 
-| Category | Technology |
-|----------|------------|
+---
+
+## Solution
+
+DevStream automates the end-to-end API failure analysis workflow by integrating backend services, workflow automation, artificial intelligence, and persistent data storage into a unified monitoring pipeline.
+
+When a failed API request is received, the platform:
+
+1. Receives the failure request from the Spring Boot application.
+2. Validates and processes the incoming payload.
+3. Records the failure details in PostgreSQL.
+4. Invokes Google Gemini to generate AI-assisted analysis.
+5. Updates the monitoring repository with AI-generated insights.
+6. Sends email notifications based on the severity of the incident.
+
+This automated workflow minimizes repetitive investigation tasks, standardizes incident analysis, and enables engineering teams to respond to failures more efficiently.
+
+---
+
+## Engineering Highlights
+
+- Built with Java 21 and Spring Boot 3
+- Automated workflow orchestration using n8n
+- AI-assisted API failure analysis with Google Gemini
+- PostgreSQL-based persistence layer for monitoring data
+- RESTful backend integration for workflow execution
+- Automated email notifications for incident reporting
+- Modular architecture designed for future enhancements
+
+## High-Level Architecture
+
+DevStream follows a modular, event-driven architecture that integrates backend services, workflow automation, artificial intelligence, and persistent storage to automate API failure analysis.
+
+The Spring Boot application serves as the entry point for failed API requests and communicates with an n8n workflow responsible for orchestrating the end-to-end monitoring process. The workflow validates incoming data, stores failure records in PostgreSQL, invokes Google Gemini for AI-assisted analysis, updates monitoring records with generated insights, and sends email notifications for critical incidents.
+
+This modular architecture enables each component to operate independently while supporting future enhancements without impacting the core monitoring pipeline.
+
+> **Architecture Diagram**
+>
+> *(Insert architecture diagram here.)*
+
+
+## Technology Stack
+
+| Layer | Technology |
+|-------|------------|
+| Programming Language | Java 21 |
+| Backend Framework | Spring Boot 3 |
 | Workflow Automation | n8n |
-| AI Model | Gemini AI |
-| Database | Neon PostgreSQL |
-| Database Engine | PostgreSQL |
-| Notification | Gmail |
+| Artificial Intelligence | Google Gemini |
+| Database | PostgreSQL |
+| Email Notifications | Gmail |
 | API Testing | Postman |
-| Version Control | GitHub |
-| Future Event Source | Spring Boot Microservice |
+| Version Control | Git & GitHub |
+| IDE | IntelliJ IDEA |
 
-## Architecture Diagram
+## Database Overview
 
-```mermaid
-flowchart TD
+DevStream uses PostgreSQL as its primary persistence layer to store API failure events, AI-generated analysis, and notification records. The database provides a structured repository for monitoring data, enabling traceability, historical analysis, and future reporting capabilities.
 
-A["API Failure Event"]
-B["Receive Failure Event"]
-C["Validate Payload"]
-D["Calculate Severity"]
-E["Log API Failure"]
-F["Analyze Failure (Gemini AI)"]
-G["Parse AI Response"]
-H["Store AI Analysis"]
-I["Update AI Status"]
-J{"HIGH Severity?"}
-K["Notify Engineer (Email)"]
-L["End"]
-M["Neon PostgreSQL
-(api_failure_logs, ai_analysis)"]
+The complete database schema, ER diagram, table definitions, relationships, and SQL scripts are available in:
 
-A --> B
-B --> C
-C --> D
-D --> E
+📄 **docs/phase2/database.md**
 
-E -.->|"Save Failure Log"| M
+---
 
-E --> F
-F --> G
-G --> H
+## Documentation
 
-H -.->|"Save AI Analysis"| M
+Comprehensive technical documentation is available for every major component of DevStream.
 
-H --> I
-I -.->|"Update Processing Status"| M
-I --> J
+| Document | Description |
+|----------|-------------|
+| `docs/phase2/README.md` | Engineering Design Document for Release 2 |
+| `docs/phase2/architecture.md` | System architecture and component interactions |
+| `docs/phase2/api.md` | REST API endpoints, request/response models, and integration details |
+| `docs/phase2/database.md` | Database schema, relationships, and SQL scripts |
+| `docs/phase2/workflow.md` | End-to-end workflow execution and node-level explanation |
 
-J -->|Yes| K
-J -->|No| L
-```
+---
 
-> **Current Event Source:** Postman for API failure simulation
->
-> **Workflow Trigger:** n8n HTTP Webhook
->
-> **Planned Event Source:** Spring Boot Microservice (Phase 2)
-
-## Workflow Screenshot
-
-The following screenshot shows the complete implementation of the AI-powered incident monitoring pipeline in **n8n**.
-
-![DevStream Workflow](images/workflow.png)
-
-The workflow validates incoming API failures, performs AI-assisted incident analysis, persists the results in Neon PostgreSQL, and notifies engineers for HIGH-severity incidents.
-
-## Demo
-
-### Sample Workflow Execution
-
-1. API failure event is sent using Postman.
-2. n8n validates the payload and calculates severity.
-3. Failure details are stored in Neon PostgreSQL.
-4. Gemini AI analyzes the incident and generates:
-   - Root cause
-   - Java fix recommendation
-   - Unit test suggestion
-   - Best practice
-   - Confidence score
-5. AI analysis is stored in PostgreSQL.
-6. HIGH severity incidents trigger an automated email notification to the designated engineer.
-
-## Database Schema
-
-The project uses **Neon PostgreSQL** to store both raw API failure events and AI-generated incident analysis.
-
-The following diagram presents a simplified view of the primary database fields and relationships.
-
-The database consists of two primary tables:
-
-| Table | Purpose |
-|-------|---------|
-| `api_failure_logs` | Stores API failure details received by the workflow |
-| `ai_analysis` | Stores AI-generated analysis linked to each API failure |
-
-```mermaid
-erDiagram
-
-api_failure_logs ||--o| ai_analysis : has
-
-api_failure_logs {
-    int failure_id PK
-    string service_name
-    string endpoint
-    int status_code
-    string severity
-    string ai_status
-}
-
-ai_analysis {
-    int analysis_id PK
-    int failure_id FK
-    string root_cause
-    string java_fix
-    string recommended_action
-    float confidence_score
-}
-```
-
-Each API failure is stored first in `api_failure_logs`.
-
-After AI processing, the generated root cause analysis, Java fix recommendations, confidence score, and other outputs are stored in `ai_analysis` using the corresponding `failure_id`.
-
-## Sample API Payload
-
-The workflow receives API failure events through an HTTP Webhook.
-
-Example request:
-
-```json
-{
-  "serviceName": "Order Service",
-  "endpoint": "/api/orders",
-  "httpMethod": "POST",
-  "statusCode": 500,
-  "responseTimeMs": 2400,
-  "errorMessage": "NullPointerException while creating order",
-  "stackTrace": "java.lang.NullPointerException..."
-}
-```
-
-## Setup Guide
-
-### Prerequisites
-
-- n8n Cloud or self-hosted n8n
-- Google Gemini API Key
-- Neon PostgreSQL
-- Gmail Account
-- Postman
-
-### Installation
-
-1. Clone the repository.
-2. Create the PostgreSQL tables using the SQL scripts.
-3. Import the n8n workflow JSON.
-4. Configure the Gemini API credentials.
-5. Configure PostgreSQL credentials.
-6. Configure Gmail credentials.
-7. Activate the workflow.
-8. Send the sample payload using Postman.
-9. Verify the AI analysis and database entries.
-
-## Security
-
-This repository intentionally excludes all secrets and sensitive credentials.
-
-The exported n8n workflow contains only references to credentials—not the actual values.
-
-After importing the workflow, configure your own credentials in n8n for:
-
-- Google Gemini API
-- Neon PostgreSQL
-- Gmail OAuth
-
-Never commit:
-
-- API keys
-- Database passwords
-- Connection strings
-- OAuth tokens
-- `.env` files
-- Exported credentials
-
-## Future Enhancements
-
-### Phase 2
-
-- Replace Postman with Spring Boot Microservice
-- Automatic failure reporting
-- Exception handling integration
-
-### Planned Improvements
-
-- Slack notifications
-- Jira integration
-- Monitoring dashboard
-- Incident analytics
-- Retry recommendations
-- Historical incident search
-- Docker deployment
-
-## Project Structure
+## Repository Structure
 
 ```text
 DevStream/
 │
-├── README.md
+├── docs/
+│   └── phase2/
+│       ├── README.md
+│       ├── architecture.md
+│       ├── api.md
+│       ├── database.md
+│       └── workflow.md
+│
+├── springboot/
 ├── workflow/
-│   └── DevStream_AI_Incident_Monitoring.json
 ├── database/
-│   ├── create_tables.sql
-│   └── sample_data.sql
 ├── images/
-│   └── workflow.png
+├── README.md
 └── LICENSE
 ```
 
-## Project Status
+---
 
-**Current Phase**
+## Roadmap
 
-Phase 1 – AI-powered incident monitoring workflow using Postman for event simulation.
+### ✅ Release 1 – AI Monitoring
+- AI-powered API failure analysis
+- Workflow automation using n8n
+- PostgreSQL persistence
+- Email notifications
 
-**Next Phase**
+### 🚧 Release 2 – Spring Boot Integration (Current)
+- Spring Boot REST API integration
+- End-to-end backend workflow
+- Improved documentation
+- Modular project structure
 
-Integrate a Spring Boot microservice to automatically report API failures to the n8n workflow.
+### 🔜 Release 3 – AI Incident Management
+- Incident fingerprinting
+- Incident deduplication
+- Knowledge Base
+- Enhanced AI analysis
+- Smarter notifications
+- Grafana dashboards
 
-## Repository Contents
+### 🔜 Release 4 – Production Readiness
+- Docker
+- Spring Security
+- Automated testing
+- CI/CD pipeline
+- Deployment
 
-- `workflow/` – n8n workflow export
-- `database/` – PostgreSQL schema and sample data
-- `images/` – Architecture and workflow screenshots
-- `README.md` – Project documentation
+---
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License.
+
+See the **LICENSE** file for details.
+
+## Author
+
+**Farha Serin Naaz**
+
+Backend Engineering | Java | Spring Boot | Workflow Automation | Generative AI
+
+DevStream is part of my hands-on journey in building production-oriented backend systems by combining modern Java development with AI-assisted automation and cloud-ready architecture.
