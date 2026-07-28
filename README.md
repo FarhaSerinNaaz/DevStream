@@ -7,7 +7,7 @@
 ![n8n](https://img.shields.io/badge/n8n-Workflow-EA4B71)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-> DevStream is an AI-powered backend incident monitoring platform that automates the analysis of failed API requests through workflow orchestration, AI-assisted analysis, and persistent monitoring.
+> DevStream is an AI-powered backend incident monitoring platform that automates the analysis of failed API requests through workflow orchestration, generate AI-assisted analysis using Google Gemini, and persistent monitoring.
 
 ---
 
@@ -66,8 +66,8 @@ The Spring Boot application serves as the entry point for failed API requests an
 
 This modular architecture enables each component to operate independently while supporting future enhancements without impacting the core monitoring pipeline.
 
-> **Architecture Diagram**
->
+### Architecture Diagram
+
 ![DevStream Release 2 Architecture](images/phase2-architecture.png)
 
 
