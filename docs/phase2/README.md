@@ -1,1 +1,12 @@
-# DevStream Release 2 Documentation
+# Documentation
+
+## Releases
+
+- Phase 2 Documentation
+
+## Technical References
+
+- Architecture
+- REST API
+- Database
+- Workflow
