@@ -1,6 +1,6 @@
 # DevStream
 
-> AI-powered backend incident monitoring platform that automates API failure analysis, accelerates debugging, and helps engineering teams respond to production issues faster.
+> DevStream is an AI-powered backend incident monitoring platform that automates the analysis of failed API requests through workflow orchestration, AI-assisted analysis, and persistent monitoring.
 
 ---
 
@@ -44,12 +44,12 @@ This automated workflow minimizes repetitive investigation tasks, standardizes i
 ## Engineering Highlights
 
 - Built with Java 21 and Spring Boot 3
-- Automated workflow orchestration using n8n
-- AI-assisted API failure analysis with Google Gemini
-- PostgreSQL-based persistence layer for monitoring data
-- RESTful backend integration for workflow execution
-- Automated email notifications for incident reporting
-- Modular architecture designed for future enhancements
+- RESTful backend integration
+- PostgreSQL persistence layer
+- Workflow orchestration using n8n
+- AI-assisted analysis using Google Gemini
+- Automated email notifications
+- Modular architecture for future enhancements
 
 ## High-Level Architecture
 
@@ -61,7 +61,7 @@ This modular architecture enables each component to operate independently while 
 
 > **Architecture Diagram**
 >
-> *(Insert architecture diagram here.)*
+> ![DevStream Release 2 Architecture](images/phase2-architecture.png)
 
 
 ## Technology Stack
@@ -71,7 +71,7 @@ This modular architecture enables each component to operate independently while 
 | Programming Language | Java 21 |
 | Backend Framework | Spring Boot 3 |
 | Workflow Automation | n8n |
-| Artificial Intelligence | Google Gemini |
+| AI Service | Google Gemini |
 | Database | PostgreSQL |
 | Email Notifications | Gmail |
 | API Testing | Postman |
@@ -80,7 +80,7 @@ This modular architecture enables each component to operate independently while 
 
 ## Database Overview
 
-DevStream uses PostgreSQL as its primary persistence layer to store API failure events, AI-generated analysis, and notification records. The database provides a structured repository for monitoring data, enabling traceability, historical analysis, and future reporting capabilities.
+DevStream uses PostgreSQL as its primary persistence layer to store API failure events, AI-generated analysis, and notification records. The database provides a structured repository for monitoring data, enabling traceability, historical analysis, and reporting and analytics.
 
 The complete database schema, ER diagram, table definitions, relationships, and SQL scripts are available in:
 
@@ -125,6 +125,12 @@ DevStream/
 
 ---
 
+## Project Status
+
+**Current Release:** Release 2 – Spring Boot Integration
+
+Release 2 establishes the backend foundation of DevStream by integrating Spring Boot with the AI-powered monitoring workflow. Future releases will extend the platform with incident fingerprinting, knowledge management, enhanced analytics, and production-ready deployment capabilities.
+
 ## Roadmap
 
 ### ✅ Release 1 – AI Monitoring
@@ -164,8 +170,10 @@ See the **LICENSE** file for details.
 
 ## Author
 
+## Author
+
 **Farha Serin Naaz**
 
 Backend Engineering | Java | Spring Boot | Workflow Automation | Generative AI
 
-DevStream is part of my hands-on journey in building production-oriented backend systems by combining modern Java development with AI-assisted automation and cloud-ready architecture.
+DevStream showcases my approach to building production-oriented backend systems by combining Java, Spring Boot, workflow automation, AI-assisted analysis, and PostgreSQL into a practical engineering solution.
