@@ -1,5 +1,3 @@
-# DevStream – Release 2 Engineering Documentation
-
 # DevStream – Phase 2 Engineering Documentation
 
 | Item | Details |
@@ -17,7 +15,7 @@
 
 This document provides a high-level overview of the engineering enhancements introduced in Release 2 and serves as the entry point to the detailed technical documentation for this release.
 
-Release 2 establishes the backend foundation of DevStream by integrating a Spring Boot application with an AI-powered monitoring workflow orchestrated using n8n. The platform automates the collection, analysis, storage, and notification of failed API requests, reducing the manual effort required for incident investigation.
+Release 2 extends the backend capabilities of DevStream by integrating a Spring Boot application with the AI-powered monitoring workflow introduced in Release 1. The platform automates the collection, analysis, storage, and notification of failed API requests, reducing the manual effort required for incident investigation.
 
 This document provides a technical overview of the Release 2 implementation, describing the system architecture, backend components, workflow orchestration, database design, API integration, and key engineering decisions. Detailed implementation specifics are documented separately in the architecture, API, database, and workflow guides.
 
@@ -152,6 +150,16 @@ Release 2 delivers the following enhancements:
 - Database Documentation (`database.md`)
 - API Documentation (`api.md`)
 - Engineering Decisions (`engineering-decisions.md`)
-- Root Project README
+- Root Repository README (../README.md)
 
- 
+ ## Document Purpose
+
+This document provides a high-level engineering overview of Release 2.
+
+Detailed implementation is documented separately in:
+
+- architecture.md
+- workflow.md
+- database.md
+- api.md
+- engineering-decisions.md
