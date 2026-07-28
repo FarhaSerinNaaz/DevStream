@@ -158,8 +158,8 @@ This document provides a high-level engineering overview of Release 2.
 
 Detailed implementation is documented separately in:
 
-- architecture.md
-- workflow.md
-- database.md
-- api.md
-- engineering-decisions.md
+- [Architecture Documentation](architecture.md)
+- [Workflow Documentation](workflow.md)
+- [Database Documentation](database.md)
+- [API Documentation](api.md)
+- [Engineering Decisions](engineering-decisions.md)
