@@ -7,7 +7,7 @@
 ![n8n](https://img.shields.io/badge/n8n-Workflow-EA4B71)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-> > DevStream is an AI-powered backend incident monitoring platform that automates API failure analysis using workflow orchestration, Google Gemini for AI-assisted analysis, and PostgreSQL for persistent monitoring.
+> DevStream is an AI-powered backend incident monitoring platform that automates API failure analysis using workflow orchestration, Google Gemini for AI-assisted analysis, and PostgreSQL for persistent monitoring.
 
 ---
 
