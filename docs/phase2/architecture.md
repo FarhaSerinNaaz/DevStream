@@ -52,11 +52,16 @@ flowchart TB
     K -->|High Severity| L[Notify Engineer by Email]
     K -->|Other Severity| M[Complete Processing]
 
-    F -. Insert Failure Record .-> N[(Neon PostgreSQL)]
+    subgraph External Services
+        N[(Neon PostgreSQL)]
+        O[Google Gemini Chat Model]
+    end
+
+    F -. Insert Failure Record .-> N
     I -. Insert AI Analysis .-> N
     J -. Update Processing Status .-> N
 
-    G -. AI Request and Response .-> O[Google Gemini Chat Model]
+    G -. AI Request and Response .-> O
 ```
 
 ### Architecture Overview
@@ -93,7 +98,7 @@ This separation of responsibilities improves modularity, maintainability, and ex
 
 The Release 2 architecture processes each failed API request through a structured workflow that automates incident analysis and response.
 
-The process begins when the Spring Boot backend receives a failed API request and forwards it to the existing n8n workflow.
+The process begins when the Spring Boot backend receives an API request representing a failed API invocation and forwards it to the existing n8n workflow.
 
 The workflow validates the request, performs AI-assisted incident analysis using Google Gemini, persists the resulting data in Neon PostgreSQL, evaluates the incident severity, and triggers email notifications for high-severity incidents.
 
