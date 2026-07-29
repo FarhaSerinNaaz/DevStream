@@ -32,9 +32,34 @@ The architecture of Release 2 is designed to achieve the following objectives:
 
 ## High-Level System Architecture
 
+## High-Level System Architecture
+
 Release 2 extends the architecture introduced in Release 1 by integrating a Spring Boot backend as the primary entry point for incoming API requests. The existing n8n workflow remains unchanged and continues to orchestrate the end-to-end incident analysis process.
 
 The following diagram illustrates the high-level execution flow and the interactions between the workflow and its external services.
+
+```mermaid
+flowchart LR
+    A[API Consumer] --> B[Spring Boot Backend]
+    B --> C[Receive Failure Event]
+    C --> D[Validate Payload]
+    D --> E[Calculate Severity]
+    E --> F[Log API Failure]
+    F --> G[Analyze Failure with Gemini AI]
+    G --> H[Parse AI Response]
+    H --> I[Store AI Analysis]
+    I --> J[Update AI Status]
+    J --> K{Check Severity}
+
+    K -->|High Severity| L[Notify Engineer by Email]
+    K -->|Other Severity| M[Complete Processing]
+
+    F -. Insert Failure Record .-> N[(Neon PostgreSQL)]
+    I -. Insert AI Analysis .-> N
+    J -. Update Processing Status .-> N
+
+    G -. AI Request and Response .-> O[Google Gemini Chat Model]
+```
 
 ### Architecture Overview
 
@@ -42,7 +67,47 @@ The processing flow begins when an API consumer submits a failed API request to 
 
 Within the workflow, the incoming payload is validated, the incident severity is calculated, and the API failure is recorded in Neon PostgreSQL. The workflow then invokes the Google Gemini Chat Model to perform AI-assisted incident analysis. After processing the AI response, the generated analysis is stored, the incident status is updated, and the workflow evaluates the incident severity to determine whether an engineer notification should be sent.
 
-The workflow interacts with Neon PostgreSQL for persistent storage, Google Gemini for AI-powered analysis, and the email notification service for conditional alerting. Together, these components provide an automated pipeline for incident analysis and response.
+The workflow interacts with Neon PostgreSQL for persistent storage, Google Gemini for AI-powered analysis, and the email notification service for conditional alerting. Together, these components provide an automated architecture for incident detection, AI-assisted analysis, data persistence, and notification.
+
+```mermaid
+flowchart LR
+    A[API Consumer]
+    B[Spring Boot Backend]
+    C[Receive Failure Event]
+    D[Validate Payload]
+    E[Calculate Severity]
+    F[Log API Failure]
+    G[Analyze Failure]
+    H[Parse AI Response]
+    I[Store AI Analysis]
+    J[Update AI Status]
+    K{Check Severity}
+    L[Notify Engineer]
+    M[Complete Processing]
+
+    N[(Neon PostgreSQL)]
+    O[Google Gemini]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+    J --> K
+
+    K -->|High| L
+    K -->|Low/Medium| M
+
+    F -.-> N
+    I -.-> N
+    J -.-> N
+
+    G -.-> O
+```
 
 ## System Components
 
@@ -64,15 +129,17 @@ The Spring Boot backend serves as the primary entry point for incoming API reque
 
 During execution, the workflow interacts with Neon PostgreSQL to persist incident records, AI-generated analysis, and workflow status. It also communicates with the Google Gemini Chat Model to generate AI-assisted root cause analysis and recommended resolutions. When an incident is classified as high severity, the workflow triggers the email notification service to alert the configured recipients.
 
-This separation of responsibilities allows each component to perform a dedicated function while maintaining a clear and modular architecture.
+This separation of responsibilities improves modularity, maintainability, and extensibility while allowing each component to evolve independently.
 
 ## Request Processing Lifecycle
 
 The Release 2 architecture processes each failed API request through a structured workflow that automates incident analysis and response.
 
-The process begins when the Spring Boot backend receives a failed API request and forwards it to the existing n8n workflow. The workflow validates the request, calculates the incident severity, records the failure, invokes Google Gemini for AI-assisted analysis, stores the generated analysis and workflow status in Neon PostgreSQL, and evaluates the incident severity to determine whether an email notification should be sent.
+The process begins when the Spring Boot backend receives a failed API request and forwards it to the existing n8n workflow.
 
-This standardized processing flow ensures that every incident is consistently validated, analyzed, persisted, and, when required, communicated to the appropriate recipients.
+The workflow validates the request, performs AI-assisted incident analysis using Google Gemini, persists the resulting data in Neon PostgreSQL, evaluates the incident severity, and triggers email notifications for high-severity incidents.
+
+This standardized processing flow ensures that every incident is consistently analyzed, persisted, and communicated when required.
 
 ## Architectural Decisions
 
@@ -120,6 +187,10 @@ The current Release 2 architecture establishes a modular foundation for future e
 - Containerizing the application and workflow components to simplify deployment across different environments.
 
 These enhancements can be implemented with minimal architectural changes due to the modular separation of responsibilities introduced in Release 2.
+
+## Conclusion
+
+Release 2 enhances the DevStream platform by introducing a Spring Boot backend while preserving the proven n8n workflow architecture established in Release 1. This approach improves modularity, supports future extensibility, and provides a scalable foundation for AI-assisted API incident monitoring.
 
 ## References
 
