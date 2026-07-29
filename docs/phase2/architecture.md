@@ -57,11 +57,11 @@ flowchart TB
         O[Google Gemini Chat Model]
     end
 
-    F -. Insert Failure Record .-> N
-    I -. Insert AI Analysis .-> N
-    J -. Update Processing Status .-> N
+    F -.-> N
+    I -.-> N
+    J -.-> N
 
-    G -. AI Request and Response .-> O
+    G -.-> O
 ```
 
 ### Architecture Overview
