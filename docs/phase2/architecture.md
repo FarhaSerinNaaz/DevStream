@@ -32,15 +32,38 @@ The architecture of Release 2 is designed to achieve the following objectives:
 
 ## High-Level System Architecture
 
-Release 2 preserves the complete n8n-based incident-processing flow established in Release 1. The architectural change in Release 2 is the introduction of a Spring Boot backend as the API entry point.
+Release 2 preserves the existing n8n-based incident-processing workflow from Release 1 and introduces the Spring Boot backend as the new API entry point.
 
 ```mermaid
 flowchart LR
     A[API Consumer] --> B[Spring Boot Backend<br/>Added in Release 2]
-    B --> C[Existing n8n Incident Analysis Workflow<br/>Preserved from Release 1]
-```
+    B --> C[Receive Failure Event]
+    C --> D[Validate Payload]
+    D --> E[Calculate Severity]
+    E --> F[Log API Failure]
+    F --> G[Analyze Failure with Gemini AI]
+    G --> H[Parse AI Response]
+    H --> I[Store AI Analysis]
+    I --> J[Update AI Status]
+    J --> K{Check Severity}
 
-The Spring Boot backend receives API failure events and forwards them to the existing n8n incident analysis workflow. The internal workflow sequence and its integrations remain unchanged from Release 1.
+    K -->|High Severity| L[Notify Engineer by Email]
+    K -->|Other Severity| M[Complete Processing]
+
+    F -. Insert Failure Record .-> N[(Neon PostgreSQL)]
+    I -. Insert AI Analysis .-> N
+    J -. Update Processing Status .-> N
+
+    G -. AI Request and Response .-> O[Google Gemini Chat Model]
+```
+The API consumer submits a failed API event to the Spring Boot backend, which forwards the request to the existing n8n workflow.
+
+The workflow validates the payload, calculates incident severity, and stores the API failure record in Neon PostgreSQL. It then sends the failure details to the Google Gemini Chat Model for AI-assisted analysis.
+
+After receiving the AI response, the workflow parses and stores the generated analysis, updates the processing status, and evaluates the incident severity. High-severity incidents trigger an engineer email notification, while other incidents complete without notification.
+
+The internal n8n workflow remains unchanged from Release 1. The Spring Boot backend is the primary architectural addition introduced in Release 2.
+
 
 Release 2 therefore extends the system by adding a dedicated backend layer without redesigning or replacing the established workflow architecture. The detailed processing sequence and service interactions are presented separately in the Request Processing Flow section.
 
