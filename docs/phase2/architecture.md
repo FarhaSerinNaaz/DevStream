@@ -52,10 +52,8 @@ flowchart TB
     K -->|High Severity| L[Notify Engineer by Email]
     K -->|Other Severity| M[Complete Processing]
 
-    subgraph EXT["External Services"]
-        N[(Neon PostgreSQL)]
-        O[Google Gemini Chat Model]
-    end
+    N[(Neon PostgreSQL)]
+    O[Google Gemini Chat Model]
 
     F -.-> N
     I -.-> N
