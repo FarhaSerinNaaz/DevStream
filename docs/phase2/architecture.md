@@ -32,15 +32,17 @@ The architecture of Release 2 is designed to achieve the following objectives:
 
 ## High-Level System Architecture
 
-```mermaid
-flowchart TD
-    A[API Consumer] --> B[Spring Boot Backend]
-    B --> C[n8n Workflow Engine]
+Release 2 preserves the complete n8n-based incident-processing flow established in Release 1. The architectural change in Release 2 is the introduction of a Spring Boot backend as the API entry point.
 
-    C --> D[Google Gemini API]
-    C --> E[(PostgreSQL Database)]
-    C --> F[Email Notification Service]
+```mermaid
+flowchart LR
+    A[API Consumer] --> B[Spring Boot Backend<br/>Added in Release 2]
+    B --> C[Existing n8n Incident Analysis Workflow<br/>Preserved from Release 1]
 ```
+
+The Spring Boot backend receives API failure events and forwards them to the existing n8n incident analysis workflow. The internal workflow sequence and its integrations remain unchanged from Release 1.
+
+Release 2 therefore extends the system by adding a dedicated backend layer without redesigning or replacing the established workflow architecture. The detailed processing sequence and service interactions are presented separately in the Request Processing Flow section.
 
 Release 2 preserves the workflow-driven architecture established in Release 1 while introducing a dedicated backend layer using Spring Boot. The backend application acts as the primary entry point for incoming API requests and forwards them to the existing n8n workflow for processing.
 
