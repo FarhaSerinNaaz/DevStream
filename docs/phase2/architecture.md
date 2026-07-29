@@ -32,14 +32,12 @@ The architecture of Release 2 is designed to achieve the following objectives:
 
 ## High-Level System Architecture
 
-## High-Level System Architecture
-
 Release 2 extends the architecture introduced in Release 1 by integrating a Spring Boot backend as the primary entry point for incoming API requests. The existing n8n workflow remains unchanged and continues to orchestrate the end-to-end incident analysis process.
 
 The following diagram illustrates the high-level execution flow and the interactions between the workflow and its external services.
 
 ```mermaid
-flowchart LR
+flowchart TB
     A[API Consumer] --> B[Spring Boot Backend]
     B --> C[Receive Failure Event]
     C --> D[Validate Payload]
@@ -68,46 +66,6 @@ The processing flow begins when an API consumer submits a failed API request to 
 Within the workflow, the incoming payload is validated, the incident severity is calculated, and the API failure is recorded in Neon PostgreSQL. The workflow then invokes the Google Gemini Chat Model to perform AI-assisted incident analysis. After processing the AI response, the generated analysis is stored, the incident status is updated, and the workflow evaluates the incident severity to determine whether an engineer notification should be sent.
 
 The workflow interacts with Neon PostgreSQL for persistent storage, Google Gemini for AI-powered analysis, and the email notification service for conditional alerting. Together, these components provide an automated architecture for incident detection, AI-assisted analysis, data persistence, and notification.
-
-```mermaid
-flowchart LR
-    A[API Consumer]
-    B[Spring Boot Backend]
-    C[Receive Failure Event]
-    D[Validate Payload]
-    E[Calculate Severity]
-    F[Log API Failure]
-    G[Analyze Failure]
-    H[Parse AI Response]
-    I[Store AI Analysis]
-    J[Update AI Status]
-    K{Check Severity}
-    L[Notify Engineer]
-    M[Complete Processing]
-
-    N[(Neon PostgreSQL)]
-    O[Google Gemini]
-
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
-    G --> H
-    H --> I
-    I --> J
-    J --> K
-
-    K -->|High| L
-    K -->|Low/Medium| M
-
-    F -.-> N
-    I -.-> N
-    J -.-> N
-
-    G -.-> O
-```
 
 ## System Components
 
