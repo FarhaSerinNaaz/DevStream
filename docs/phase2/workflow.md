@@ -308,7 +308,6 @@ Determines whether engineer notification is required.
 **Processing**
 
 - Evaluates the severity assigned by the **Calculate Severity** node.
-- Continues only when:
 - If the severity is **HIGH**, the workflow proceeds to the **Notify Engineer Email** node.
 - If the severity is **LOW** or **MEDIUM**, the workflow ends without sending a notification.
 
