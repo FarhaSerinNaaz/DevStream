@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The DevStream Monitoring project uses a PostgreSQL database to persist API failure records and AI-generated incident analysis produced during workflow execution.
+The DevStream Monitoring project uses a PostgreSQL database to persist API failure records and AI-generated  analysis produced during workflow execution.
 
 In Phase 2, the database serves as the central storage layer between the Spring Boot application and the n8n workflow. API failure events received from the application are stored in PostgreSQL, enriched with AI-generated root cause analysis and recommendations, and updated with the workflow processing status.
 
@@ -68,7 +68,7 @@ failure_id (FK, UNIQUE)
 
 ### Purpose
 
-The `monitoring.api_failure_logs` table stores API failure events received from the Spring Boot application. Each row represents a single failed API request captured during workflow execution.
+The monitoring.api_failure_logs table stores API failure events received from the Spring Boot application. Each row represents a single failed API request captured during workflow execution.
 
 This table serves as the primary source of failure data for the n8n workflow. Each failure record can have zero or one corresponding AI analysis stored in the monitoring.ai_analysis table.
 
@@ -115,11 +115,11 @@ The Phase 2 n8n workflow performs the following database operations on this tabl
 
 ### Purpose
 
-The `monitoring.ai_analysis` table stores AI-generated analysis for API failures recorded in the `monitoring.api_failure_logs` table.
+The monitoring.ai_analysis table stores AI-generated analysis for API failures recorded in the monitoring.api_failure_logs table.
 
 Each record contains the AI-generated root cause analysis, Java fix recommendation, unit test suggestion, best practice guidance, confidence score, and recommended action for a single API failure.
 
-The table maintains a one-to-one relationship with `monitoring.api_failure_logs`, ensuring that each API failure can have at most one AI analysis.
+The table maintains a one-to-one relationship with monitoring.api_failure_logs, ensuring that each API failure can have at most one AI analysis.
 
 ### Primary Key
 
@@ -223,7 +223,7 @@ The workflow performs the following database operations:
 Spring Boot Application
             │
             ▼
-Insert API Failure
+Insert API Failure Record
 (api_failure_logs)
             │
             ▼
@@ -307,4 +307,4 @@ Throughout the Phase 2 n8n workflow, the database is used to:
 - Store AI-generated recommendations.
 - Track AI processing status from `PENDING` to `COMPLETED`.
 
-This design provides a structured and reliable data layer that supports automated API failure analysis while maintaining a clear separation between raw failure data and AI-generated insights.
+This design provides a structured persistence layer that supports automated API failure analysis while maintaining a clear separation between raw failure data and AI-generated insights.
