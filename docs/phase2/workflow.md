@@ -153,16 +153,16 @@ Creates the initial incident record in the PostgreSQL database before AI analysi
 **Processing**
 
 - Inserts a new record into the `monitoring.api_failure_logs` table.
-Stores key incident information, including:
-- Service name
-- Endpoint
-- HTTP method
-- Status code
-- Response time
-- Severity
-- Error message
-- Stack trace
-- AI processing status
+- Stores key incident information, including:
+  - Service name
+  - Endpoint
+  - HTTP method
+  - Status code
+  - Response time
+  - Severity
+  - Error message
+  - Stack trace
+  - AI processing status
 - Initializes the AI processing status as **PENDING**.
 - Returns the generated failure identifier for use in downstream nodes.
 
@@ -309,12 +309,8 @@ Determines whether engineer notification is required.
 
 - Evaluates the severity assigned by the **Calculate Severity** node.
 - Continues only when:
-
-```
-- Continues to the notification node only when the severity is **HIGH**.
-```
-
-- LOW and MEDIUM incidents complete the workflow without notification after the AI status has been updated.
+- If the severity is **HIGH**, the workflow proceeds to the **Notify Engineer Email** node.
+- If the severity is **LOW** or **MEDIUM**, the workflow ends without sending a notification.
 
 **Output**
 
