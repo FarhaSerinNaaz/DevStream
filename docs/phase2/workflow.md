@@ -153,14 +153,16 @@ Creates the initial incident record in the PostgreSQL database before AI analysi
 **Processing**
 
 - Inserts a new record into the `monitoring.api_failure_logs` table.
-- Stores key incident information, including:
-  - Service name
-  - Endpoint
-  - HTTP method
-  - Status code
-  - Severity
-  - Error message
-  - Request payload
+Stores key incident information, including:
+- Service name
+- Endpoint
+- HTTP method
+- Status code
+- Response time
+- Severity
+- Error message
+- Stack trace
+- AI processing status
 - Initializes the AI processing status as **PENDING**.
 - Returns the generated failure identifier for use in downstream nodes.
 
@@ -190,7 +192,7 @@ Performs AI-assisted incident analysis by invoking the Google Gemini Chat Model 
 
 - Constructs a structured prompt containing the incident details.
 - Uses a system prompt that instructs Gemini to act as an expert Java Backend Incident Analysis Agent.
-- Requests a JSON response containing:
+- Requests a structured JSON response containing:
   - `failureId`
   - `rootCause`
   - `assumptions`
@@ -268,7 +270,7 @@ Stores the AI-generated incident analysis in the PostgreSQL database.
 **Output**
 
 - AI analysis stored successfully.
-- Workflow proceeds to update the incident status.
+- Workflow proceeds to the **Update AI Status** node.
 
 ### 8. Update AI Status
 
@@ -309,7 +311,7 @@ Determines whether engineer notification is required.
 - Continues only when:
 
 ```
-Severity == HIGH
+- Continues to the notification node only when the severity is **HIGH**.
 ```
 
 - LOW and MEDIUM severity incidents complete the workflow without sending notifications.
@@ -347,7 +349,7 @@ Sends an automated email notification for HIGH-severity incidents.
   - Recommended Java Fix
   - Recommended Action
   - Confidence Score
-- Sends the email using the configured Gmail account.
+- Sends the notification using the configured Gmail node.
 
 **Output**
 
