@@ -52,7 +52,7 @@ The following diagram shows the complete n8n workflow implemented in Release 2. 
 
 ## Workflow Node Summary
 
-The Release 2 workflow consists of 11 nodes that collectively validate incoming API failures, perform AI-assisted incident analysis, persist monitoring data, and notify engineers when required.
+The Release 2 workflow consists of 10 nodes that collectively validate incoming API failures, perform AI-assisted incident analysis, persist monitoring data, and notify engineers when required.
 
 | Step | Node | Purpose |
 |------|------|---------|
@@ -93,6 +93,267 @@ Receives the failed API request from the Spring Boot backend and initiates workf
 **Output**
 
 - Validated request forwarded to the next workflow node.
+
+### 2. Validate Payload
+
+**Purpose**
+
+Validates the incoming API failure request and ensures all mandatory fields are present before workflow execution continues.
+
+**Input**
+
+- API failure payload received from the Spring Boot backend.
+
+**Processing**
+
+- Extracts the request body from the incoming webhook.
+- Validates the presence of the required fields:
+  - `serviceName`
+  - `endpoint`
+  - `statusCode`
+- Rejects the request if any mandatory field is missing.
+- Normalizes the payload structure before passing it to the next node.
+
+**Output**
+
+- Validated and normalized request payload forwarded to the **Calculate Severity** node.
+
+### 3. Calculate Severity
+
+**Purpose**
+
+Determines the severity level of the API failure based on the HTTP status code.
+
+**Input**
+
+- Validated API failure payload.
+
+**Processing**
+
+- Evaluates the HTTP status code using predefined rules:
+  - **HIGH** for status codes **500 and above**
+  - **MEDIUM** for status codes **400–499**
+  - **LOW** for all other status codes
+- Appends the calculated severity to the workflow payload.
+
+**Output**
+
+- Enriched payload containing the calculated severity forwarded to the **Log API Failure** node.
+
+### 4. Log API Failure
+
+**Purpose**
+
+Creates the initial incident record in the PostgreSQL database before AI analysis begins.
+
+**Input**
+
+- API failure payload containing the calculated severity.
+
+**Processing**
+
+- Inserts a new record into the `monitoring.api_failure_logs` table.
+- Stores key incident information, including:
+  - Service name
+  - Endpoint
+  - HTTP method
+  - Status code
+  - Severity
+  - Error message
+  - Request payload
+- Initializes the AI processing status as **PENDING**.
+- Returns the generated failure identifier for use in downstream nodes.
+
+**Output**
+
+- Database record created successfully.
+- Generated `failure_id` forwarded to the AI analysis stage.
+
+### 5. Analyze Failure (Gemini AI)
+
+**Purpose**
+
+Performs AI-assisted incident analysis by invoking the Google Gemini Chat Model through the AI Agent node.
+
+**Input**
+
+- Failure ID
+- Service name
+- Endpoint
+- HTTP method
+- HTTP status code
+- Severity
+- Error message
+- Stack trace
+
+**Processing**
+
+- Constructs a structured prompt containing the incident details.
+- Uses a system prompt that instructs Gemini to act as an expert Java Backend Incident Analysis Agent.
+- Requests a JSON response containing:
+  - `failureId`
+  - `rootCause`
+  - `assumptions`
+  - `javaFix`
+  - `unitTest`
+  - `bestPractice`
+  - `confidenceScore`
+  - `recommendedAction`
+- Retries the AI request automatically if execution fails.
+
+**Output**
+
+- Structured JSON response forwarded to the **Parse AI Response** node.
+
+### 6. Parse AI Response
+
+**Purpose**
+
+Validates and transforms the AI-generated response into a structured format suitable for persistence.
+
+**Input**
+
+- JSON response returned by the AI Agent.
+
+**Processing**
+
+- Removes Markdown code block wrappers when present.
+- Parses the AI response into JSON.
+- Validates that the response is valid JSON.
+- Extracts:
+  - Root Cause
+  - Assumptions
+  - Java Fix
+  - Unit Test
+  - Best Practice
+  - Confidence Score
+  - Recommended Action
+- Normalizes the confidence score to a value between **0** and **1**.
+- Validates that the recommended action is one of:
+  - CREATE_INCIDENT
+  - LOG_ONLY
+  - RETRY
+  - ESCALATE
+- Determines the AI processing status:
+  - COMPLETED
+  - FAILED
+
+**Output**
+
+- Structured AI analysis forwarded to the **Store AI Analysis** node.
+
+### 7. Store AI Analysis
+
+**Purpose**
+
+Stores the AI-generated incident analysis in the PostgreSQL database.
+
+**Input**
+
+- Parsed AI analysis.
+- Failure ID.
+
+**Processing**
+
+- Inserts a record into the `monitoring.ai_analysis` table.
+- Persists:
+  - Failure ID
+  - Root Cause
+  - Java Fix
+  - Unit Test
+  - Best Practice
+  - Confidence Score
+  - Recommended Action
+
+**Output**
+
+- AI analysis stored successfully.
+- Workflow proceeds to update the incident status.
+
+### 8. Update AI Status
+
+**Purpose**
+
+Updates the AI processing status for the corresponding incident.
+
+**Input**
+
+- Failure ID.
+- AI processing status.
+
+**Processing**
+
+- Updates the `monitoring.api_failure_logs` table.
+- Matches the record using `failure_id`.
+- Sets the `ai_status` field to either:
+  - COMPLETED
+  - FAILED
+
+**Output**
+
+- Updated incident record forwarded to the **Check Severity** node.
+
+### 9. Check Severity
+
+**Purpose**
+
+Determines whether engineer notification is required.
+
+**Input**
+
+- Calculated severity level.
+
+**Processing**
+
+- Evaluates the severity assigned by the **Calculate Severity** node.
+- Continues only when:
+
+```
+Severity == HIGH
+```
+
+- LOW and MEDIUM severity incidents complete the workflow without sending notifications.
+
+**Output**
+
+- HIGH severity → Notify Engineer Email
+- LOW/MEDIUM severity → Workflow ends
+
+### 10. Notify Engineer Email
+
+**Purpose**
+
+Sends an automated email notification for HIGH-severity incidents.
+
+**Input**
+
+- API failure details.
+- AI-generated analysis.
+
+**Processing**
+
+- Generates an email containing:
+  - Failure ID
+  - Service Name
+  - Endpoint
+  - HTTP Method
+  - Status Code
+  - Severity
+  - Error Message
+  - Stack Trace
+  - Response Time
+  - AI Processing Status
+  - Root Cause
+  - Recommended Java Fix
+  - Recommended Action
+  - Confidence Score
+- Sends the email using the configured Gmail account.
+
+**Output**
+
+- Engineer notification delivered successfully.
+- Workflow execution completed.
+
 
 
 
