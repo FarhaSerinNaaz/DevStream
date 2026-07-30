@@ -68,9 +68,9 @@ failure_id (FK, UNIQUE)
 
 ### Purpose
 
-The monitoring.api_failure_logs table stores API failure events received from the Spring Boot application. Each row represents a single failed API request captured during workflow execution.
+The 'monitoring.api_failure_logs' table stores API failure events received from the Spring Boot application. Each row represents a single failed API request captured during workflow execution.
 
-This table serves as the primary source of failure data for the n8n workflow. Each failure record can have zero or one corresponding AI analysis stored in the monitoring.ai_analysis table.
+This table serves as the primary source of failure data for the n8n workflow. Each failure record can have zero or one corresponding AI analysis stored in the 'monitoring.ai_analysis' table.
 
 ### Primary Key
 
@@ -115,7 +115,7 @@ The Phase 2 n8n workflow performs the following database operations on this tabl
 
 ### Purpose
 
-The monitoring.ai_analysis table stores AI-generated analysis for API failures recorded in the monitoring.api_failure_logs table.
+The 'monitoring.ai_analysis' table stores AI-generated analysis for API failures recorded in the 'monitoring.api_failure_logs' table.
 
 Each record contains the AI-generated root cause analysis, Java fix recommendation, unit test suggestion, best practice guidance, confidence score, and recommended action for a single API failure.
 
