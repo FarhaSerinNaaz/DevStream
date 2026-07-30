@@ -10,11 +10,13 @@ The workflow records the failure in PostgreSQL, generates AI-powered analysis us
 
 This document describes the REST API implemented in Phase 2, including the endpoint, request and response formats, validation rules, and workflow integration.
 
+---
+
 ## API Overview
 
 The Phase 2 implementation exposes a single REST endpoint through the Spring Boot application for submitting API failure events to the AI-powered monitoring workflow.
 
-The endpoint accepts structured failure information, validates the incoming request, and forwards it to the n8n webhook for further processing. The n8n workflow then stores the failure in PostgreSQL, performs AI analysis using Google Gemini, stores the generated analysis, and updates the AI processing status.
+The endpoint accepts structured API failure information, validates the incoming request, and forwards it to the configured n8n webhook for processing. The n8n workflow then stores the failure in PostgreSQL, performs AI analysis using Google Gemini, stores the generated analysis, and updates the AI processing status.
 
 ### API Summary
 
@@ -30,6 +32,8 @@ The endpoint accepts structured failure information, validates the incoming requ
 
 The API is designed to receive one API failure event per request, allowing each failure to be processed independently through the monitoring workflow.
 
+---
+
 ## Base URL
 
 The REST API is exposed by the Spring Boot application.
@@ -39,8 +43,6 @@ http://localhost:8080
 ```
 
 All endpoints documented in this guide are relative to the above base URL.
-
-### Local Development
 
 ## Authentication
 
