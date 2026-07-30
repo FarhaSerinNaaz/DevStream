@@ -314,7 +314,7 @@ Determines whether engineer notification is required.
 - Continues to the notification node only when the severity is **HIGH**.
 ```
 
-- LOW and MEDIUM severity incidents complete the workflow without sending notifications.
+- LOW and MEDIUM incidents complete the workflow without notification after the AI status has been updated.
 
 **Output**
 
