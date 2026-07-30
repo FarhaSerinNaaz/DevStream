@@ -120,7 +120,7 @@ The `monitoring.ai_analysis` table stores AI-generated analysis for API failures
 
 Each record contains the AI-generated root cause analysis, Java fix recommendation, unit test suggestion, best practice guidance, confidence score, and recommended action for a single API failure.
 
-The table maintains a one-to-one relationship with `monitoring.api_failure_logs`, ensuring that each API failure can have at most one AI analysis.
+The table maintains a one-to-one relationship with monitoring.api_failure_logs, ensuring that each API failure can have at most one AI analysis.
 
 ### Primary Key
 
