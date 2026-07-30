@@ -43,64 +43,26 @@ The Phase 2 database is organized under the **monitoring** schema and consists o
 | `monitoring.api_failure_logs` | Stores API failure events received from the Spring Boot application. |
 | `monitoring.ai_analysis` | Stores AI-generated analysis for each recorded API failure. |
 
-The two tables are related through the `incident_id` column. Each AI analysis record references a corresponding API failure record, allowing the workflow to associate AI-generated insights with the original incident.
+The two tables are related through the `failure_id` column. Each AI analysis record references the corresponding API failure record, allowing the workflow to associate AI-generated insights with the original API failure.
 
 ### Entity Relationship
 
 ```
 monitoring.api_failure_logs
+───────────────────────────
+failure_id (PK)
         │
-        │ incident_id (PK)
+        │ 1
         │
-        └──────────────┐
-                       │
-                       │ incident_id (FK)
-                       │
+        └───────────────┐
+                        │
+                        │ 0..1
+                        │
 monitoring.ai_analysis
+──────────────────────
+analysis_id (PK)
+failure_id (FK, UNIQUE)
 ```
-
-The `api_failure_logs` table acts as the parent table, while the `ai_analysis` table stores the AI-generated results associated with each incident recorded during workflow execution.
-
----
-
-## Table: monitoring.api_failure_logs
-
-### Purpose
-
-The `monitoring.api_failure_logs` table stores API failure events received from the Spring Boot application. Each record represents a single failed API request and serves as the primary incident record used throughout the n8n workflow.
-
-This table is the starting point for AI analysis. After a failure is recorded, the workflow retrieves the incident details, sends them to Google Gemini for analysis, and updates the AI processing status.
-
-### Primary Key
-
-| Column | Description |
-|--------|-------------|
-| `incident_id` | Unique identifier for each API failure record. |
-
-### Columns
-
-| Column | Description |
-|--------|-------------|
-| `incident_id` | Unique identifier for the incident. |
-| `service_name` | Name of the service where the failure occurred. |
-| `endpoint` | API endpoint that generated the failure. |
-| `http_method` | HTTP method used for the request. |
-| `status_code` | HTTP response status code. |
-| `response_time_ms` | Response time recorded for the failed request. |
-| `severity` | Severity level assigned to the incident. |
-| `error_message` | Error message captured from the API response. |
-| `stack_trace` | Stack trace associated with the failure, if available. |
-| `ai_status` | Current AI processing status for the incident. |
-| `created_at` | Timestamp when the incident was recorded. |
-
-### Usage in the Workflow
-
-The Phase 2 n8n workflow performs the following operations on this table:
-
-- Inserts a new API failure record received from the Spring Boot application.
-- Retrieves the incident details for AI analysis.
-- Updates the AI processing status after the AI analysis step.
-- Uses the stored incident information to determine whether notification is required based on severity.
 
 ## Table: monitoring.api_failure_logs
 
@@ -108,7 +70,7 @@ The Phase 2 n8n workflow performs the following operations on this table:
 
 The `monitoring.api_failure_logs` table stores API failure events received from the Spring Boot application. Each row represents a single failed API request captured during workflow execution.
 
-his table serves as the primary source of failure data for the n8n workflow. Each failure record can have zero or one corresponding AI analysis stored in the monitoring.ai_analysis table.
+This table serves as the primary source of failure data for the n8n workflow. Each failure record can have zero or one corresponding AI analysis stored in the monitoring.ai_analysis table.
 
 ### Primary Key
 
