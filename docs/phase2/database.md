@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The DevStream Monitoring project uses a PostgreSQL database to persist API failure records and AI-generated  analysis produced during workflow execution.
+The DevStream Monitoring project uses a PostgreSQL database to persist API failure records and AI-generated analysis produced during workflow execution.
 
 In Phase 2, the database serves as the central storage layer between the Spring Boot application and the n8n workflow. API failure events received from the application are stored in PostgreSQL, enriched with AI-generated root cause analysis and recommendations, and updated with the workflow processing status.
 
@@ -63,6 +63,7 @@ monitoring.ai_analysis
 analysis_id (PK)
 failure_id (FK, UNIQUE)
 ```
+The `monitoring.api_failure_logs` table acts as the parent table, while `monitoring.ai_analysis` stores the AI-generated results associated with each recorded API failure.
 
 ## Table: monitoring.api_failure_logs
 
