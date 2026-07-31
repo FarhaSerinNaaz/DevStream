@@ -15,7 +15,7 @@
 
 This document describes the end-to-end workflow implemented in DevStream Release 2.
 
-Release 2 extends the workflow introduced in Release 1 by integrating a Spring Boot backend as the primary entry point for incoming API requests while preserving the existing n8n workflow for orchestration.
+Release 2 extends the workflow introduced in Release 1 by ...integrating a Spring Boot backend as the primary entry point for incoming API incident events while preserving the existing n8n workflow for orchestration.
 
 The workflow automates API failure processing by validating incoming requests, performing AI-assisted incident analysis using Google Gemini, persisting monitoring data in PostgreSQL, and notifying engineers when high-severity incidents are detected.
 
@@ -35,7 +35,7 @@ The workflow is designed to achieve the following objectives:
 
 ## Workflow Overview
 
-The Release 2 workflow automates the end-to-end processing of failed API requests. It begins when the Spring Boot backend forwards a failed API request to the existing n8n workflow for orchestration.
+The Release 2 workflow automates the end-to-end processing of failed API requests. It begins when the Spring Boot backend forwards an API incident event to the existing n8n workflow for orchestration.
 
 During execution, the workflow validates the incoming request, calculates the incident severity, records the API failure in PostgreSQL, invokes the Google Gemini Chat Model for AI-assisted incident analysis, stores the generated analysis, updates the processing status, and determines whether an engineer notification should be sent.
 
@@ -144,7 +144,7 @@ Determines the severity level of the API failure based on the HTTP status code.
 
 **Purpose**
 
-Creates the initial incident record in the PostgreSQL database before AI analysis begins.
+Inserts the initial incident record in the PostgreSQL database before AI analysis begins.
 
 **Input**
 
