@@ -15,7 +15,7 @@
 
 This document describes the end-to-end workflow implemented in DevStream Release 2.
 
-Release 2 extends the workflow introduced in Release 1 by ...integrating a Spring Boot backend as the primary entry point for incoming API incident events while preserving the existing n8n workflow for orchestration.
+Release 2 extends the workflow introduced in Release 1 by integrating a Spring Boot backend as the primary entry point for incoming API incident events while preserving the existing n8n workflow for orchestration.
 
 The workflow automates API failure processing by validating incoming requests, performing AI-assisted incident analysis using Google Gemini, persisting monitoring data in PostgreSQL, and notifying engineers when high-severity incidents are detected.
 
