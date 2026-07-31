@@ -58,18 +58,17 @@ This automated workflow minimizes repetitive investigation tasks, standardizes i
 - Automated email notifications
 - Modular architecture for future enhancements
 
-## High-Level Architecture
+## System Workflow
 
-DevStream follows a modular, event-driven architecture that integrates backend services, workflow automation, artificial intelligence, and persistent storage to automate API failure analysis.
+DevStream processes API failures through an automated workflow that combines backend services, workflow orchestration, artificial intelligence, and persistent storage.
 
-The Spring Boot application serves as the entry point for failed API requests and communicates with an n8n workflow responsible for orchestrating the end-to-end monitoring process. The workflow validates incoming data, stores failure records in PostgreSQL, invokes Google Gemini for AI-assisted analysis, updates monitoring records with generated insights, and sends email notifications for critical incidents.
+The Spring Boot application receives failed API requests and forwards them to an n8n workflow. The workflow validates the payload, determines the incident severity, records failure details in PostgreSQL, invokes Google Gemini to generate AI-assisted analysis, updates the monitoring records with the generated insights, and sends email notifications for high-severity incidents.
 
-This modular architecture enables each component to operate independently while supporting future enhancements without impacting the core monitoring pipeline.
+This workflow provides a consistent, repeatable process for incident analysis while keeping the backend and workflow orchestration loosely coupled.
 
-### Architecture Diagram
+### Workflow Diagram
 
-![DevStream Release 2 Architecture](images/phase2-architecture.png)
-
+![DevStream Phase 2 Workflow](images/workflow-phase-2.png)
 
 ## Technology Stack
 
@@ -151,8 +150,6 @@ Release 2 establishes the backend foundation of DevStream by integrating Spring 
 - End-to-end backend workflow
 - Improved documentation
 - Modular project structure
-
-Future releases will extend the platform.
 
 ### 🔜 Release 3 – AI Incident Management
 - Incident fingerprinting
