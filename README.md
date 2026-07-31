@@ -141,8 +141,8 @@ Release 2 establishes the backend foundation of DevStream by integrating Spring 
 ## Roadmap
 
 ### ✅ Release 1 – AI Monitoring
+- n8n workflow automation
 - AI-powered API failure analysis
-- Workflow automation using n8n
 - PostgreSQL persistence
 - Email notifications
 
@@ -151,6 +151,8 @@ Release 2 establishes the backend foundation of DevStream by integrating Spring 
 - End-to-end backend workflow
 - Improved documentation
 - Modular project structure
+
+Future releases will extend the platform.
 
 ### 🔜 Release 3 – AI Incident Management
 - Incident fingerprinting
