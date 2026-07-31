@@ -112,21 +112,16 @@ Comprehensive technical documentation is available for every major component of 
 
 ```text
 DevStream/
-│
+├── database/
 ├── docs/
 │   └── phase2/
-│       ├── README.md
-│       ├── architecture.md
-│       ├── api.md
-│       ├── database.md
-│       └── workflow.md
-│
-├── springboot/
-├── workflow/
-├── database/
 ├── images/
-├── README.md
-└── LICENSE
+├── workflow/
+│   ├── DevStream_AI_Incident_Monitoring.json
+│   └── DevStream_AI_Incident_Monitoring_Phase2.json
+├── CHANGELOG.md
+├── LICENSE
+└── README.md
 ```
 
 ---
