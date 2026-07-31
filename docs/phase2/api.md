@@ -54,22 +54,59 @@ Future production implementations should secure the API using an appropriate aut
 
 ## Endpoint Summary
 
-The Phase 2 implementation exposes a single REST endpoint for submitting API failure events to the AI-powered monitoring workflow.
+The Phase 2 implementation exposes a single REST endpoint for submitting API incident events to the monitoring workflow.
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/failures` | Receives an API failure event and forwards it to the n8n workflow for AI-powered analysis. |
+| POST | `/api/incidents` | Receives an incident event and forwards it to the n8n workflow. |
 
-## POST /api/failures
+## POST /api/incidents
 
 ### Purpose
 
-The `/api/failures` endpoint receives API failure events from client applications and initiates the AI-powered monitoring workflow.
+The `/api/incidents` endpoint receives incident events from client applications and forwards them to the configured n8n workflow.
 
-Upon receiving a valid request, the Spring Boot application validates the payload and forwards it to the configured n8n webhook for processing. The workflow then stores the failure details in PostgreSQL, performs AI analysis using Google Gemini, stores the generated analysis, and updates the AI processing status.
+The Spring Boot controller accepts the JSON request body as an `IncidentEvent` object and passes it to the `N8nNotificationService` for further processing.
 
-### Request Headers
+### Request Body
 
-| Header | Required | Value |
-|--------|----------|-------|
-| `Content-Type` | Yes | `application/json` |
+The request body is submitted in JSON format and is mapped to the `IncidentEvent` model.
+
+| Field | Data Type | Expected | Description |
+|-------|-----------|----------|-------------|
+| `serviceName` | String | Yes | Name of the service where the incident occurred. |
+| `endpoint` | String | Yes | API endpoint associated with the failed request. |
+| `httpMethod` | String | Yes | HTTP method used for the request. |
+| `statusCode` | Integer | Yes | HTTP response status code returned by the failed request. |
+| `responseTimeMs` | Long | Yes | Response time of the request in milliseconds. |
+| `errorMessage` | String | Yes | Error message describing the failure. |
+| `stackTrace` | String | Yes | Stack trace captured for diagnostic purposes. |
+
+### Sample Request
+
+```json
+{
+  "serviceName": "Order Service",
+  "endpoint": "/api/orders",
+  "httpMethod": "POST",
+  "statusCode": 500,
+  "responseTimeMs": 1250,
+  "errorMessage": "Internal Server Error",
+  "stackTrace": "java.lang.NullPointerException at com.farha.devstream.service.OrderService.processOrder(OrderService.java:45)"
+}
+
+
+### Success Response
+
+Your controller returns HTTP `200 OK` with a plain-text response, not JSON.
+
+```markdown
+### Success Response
+
+When the incident is accepted and forwarded to the notification service, the API returns HTTP status `200 OK`.
+
+#### Example Response
+
+```text
+Incident received and forwarded to n8n from Order Service
+
