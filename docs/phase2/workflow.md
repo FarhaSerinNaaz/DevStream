@@ -45,7 +45,7 @@ The workflow integrates with external services, including Neon PostgreSQL for pe
 
 The following diagram shows the complete n8n workflow implemented in Release 2. It illustrates the sequence of workflow nodes responsible for validating API failures, performing AI-assisted incident analysis, persisting monitoring data, updating workflow status, and triggering engineer notifications.
 
-> <img width="2476" height="1308" alt="workflow phase 2" src="https://github.com/user-attachments/assets/4b57b0a5-51ec-4ddc-b166-fd7e6b945978" />
+> <img width="2476" height="1308" alt="workflow-phase-2" src="https://github.com/user-attachments/assets/4b57b0a5-51ec-4ddc-b166-fd7e6b945978" />
 
 
 *Figure 1. DevStream Release 2 n8n Workflow*
