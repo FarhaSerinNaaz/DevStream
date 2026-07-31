@@ -2,21 +2,19 @@
 
 ## Introduction
 
-The DevStream Monitoring project exposes a REST API through the Spring Boot application to receive API failure events for AI-powered analysis.
+The DevStream Monitoring project exposes a REST API through the Spring Boot application to receive API incident events for AI-powered analysis.
 
 During Phase 2, the REST API acts as the entry point into the monitoring workflow. When an API incident is submitted, the Spring Boot application accepts the request and forwards it to the configured n8n workflow for processing.
 
 The n8n workflow validates the required fields, records the incident in PostgreSQL, generates AI-powered analysis using Google Gemini, stores the analysis results, and updates the processing status.
 
-The workflow records the failure in PostgreSQL, generates AI-powered analysis using Google Gemini, stores the analysis results, and updates the processing status.
-
-This document describes the REST API implemented in Phase 2, ...including the endpoint, request and response formats, and integration with the Phase 2 n8n workflow.
+This document describes the REST API implemented in Phase 2, including the endpoint, request and response formats, and integration with the Phase 2 n8n workflow.
 
 ---
 
 ## API Overview
 
-The Phase 2 implementation exposes a single REST endpoint through the Spring Boot application for submitting API failure events to the AI-powered monitoring workflow.
+The Phase 2 implementation exposes a single REST endpoint through the Spring Boot application for submitting API incident events to the AI-powered monitoring workflow.
 
 The endpoint accepts structured API incident information and forwards it to the configured n8n webhook. The workflow validates the required request fields, stores the incident in PostgreSQL, performs AI-powered analysis using Google Gemini, stores the generated analysis, updates the AI processing status, and conditionally sends an email notification for high-severity incidents.
 
@@ -26,13 +24,13 @@ The endpoint accepts structured API incident information and forwards it to the 
 |----------|-------|
 | API Style | REST |
 | Method | POST |
-| Endpoint | `/api/incidentss` |
+| Endpoint | `/api/incidents` |
 | Content Type | `application/json` |
 | Request Format | JSON |
 | Response Format | Plain text |
-| Primary Consumer | API Testing Tool  Postman |
+| API Testing Tool | Postman |
 
-The API is designed to receive one API failure event per request, allowing each failure to be processed independently through the monitoring workflow.
+The API is designed to receive one API incident event per request, allowing each failure to be processed independently through the monitoring workflow.
 
 ---
 
@@ -82,9 +80,9 @@ The request body is submitted in JSON format and is mapped to the `IncidentEvent
 | errorMessage   | String    | No                   | Error message describing the failure.                     |
 | stackTrace     | String    | No                   | Stack trace captured for diagnostics.                     |
 
-
 ### Sample Request
 
+```json
 {
   "serviceName": "Order Service",
   "endpoint": "/api/orders",
@@ -94,6 +92,7 @@ The request body is submitted in JSON format and is mapped to the `IncidentEvent
   "errorMessage": "NullPointerException while creating order",
   "stackTrace": "java.lang.NullPointerException at OrderService.createOrder(OrderService.java:45)"
 }
+```
 
 ### Success Response
 
@@ -104,6 +103,3 @@ When the request is successfully handled and forwarded to the n8n notification s
 ```text
 Incident received and forwarded to n8n from Order Service
 ```
-
-
-
