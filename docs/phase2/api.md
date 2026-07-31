@@ -4,11 +4,13 @@
 
 The DevStream Monitoring project exposes a REST API through the Spring Boot application to receive API failure events for AI-powered analysis.
 
-During Phase 2, the REST API acts as the entry point into the monitoring workflow. When a failed API request is submitted, the application validates the incoming data and forwards it to the n8n workflow for processing.
+During Phase 2, the REST API acts as the entry point into the monitoring workflow. When an API incident is submitted, the Spring Boot application accepts the request and forwards it to the configured n8n workflow for processing.
+
+The n8n workflow validates the required fields, records the incident in PostgreSQL, generates AI-powered analysis using Google Gemini, stores the analysis results, and updates the processing status.
 
 The workflow records the failure in PostgreSQL, generates AI-powered analysis using Google Gemini, stores the analysis results, and updates the processing status.
 
-This document describes the REST API implemented in Phase 2, including the endpoint, request and response formats, validation rules, and workflow integration.
+This document describes the REST API implemented in Phase 2, ...including the endpoint, request and response formats, and integration with the Phase 2 n8n workflow.
 
 ---
 
@@ -16,7 +18,7 @@ This document describes the REST API implemented in Phase 2, including the endpo
 
 The Phase 2 implementation exposes a single REST endpoint through the Spring Boot application for submitting API failure events to the AI-powered monitoring workflow.
 
-The endpoint accepts structured API failure information, validates the incoming request, and forwards it to the configured n8n webhook for processing. The n8n workflow then stores the failure in PostgreSQL, performs AI analysis using Google Gemini, stores the generated analysis, and updates the AI processing status.
+The endpoint accepts structured API incident information and forwards it to the configured n8n webhook. The workflow validates the required request fields, stores the incident in PostgreSQL, performs AI-powered analysis using Google Gemini, stores the generated analysis, updates the AI processing status, and conditionally sends an email notification for high-severity incidents.
 
 ### API Summary
 
@@ -24,11 +26,11 @@ The endpoint accepts structured API failure information, validates the incoming 
 |----------|-------|
 | API Style | REST |
 | Method | POST |
-| Endpoint | `/api/failures` |
+| Endpoint | `/api/incidentss` |
 | Content Type | `application/json` |
 | Request Format | JSON |
-| Response Format | JSON |
-| Primary Consumer | Client applications submitting API failure events |
+| Response Format | Plain text |
+| Primary Consumer | API Testing Tool  Postman |
 
 The API is designed to receive one API failure event per request, allowing each failure to be processed independently through the monitoring workflow.
 
@@ -50,8 +52,6 @@ The Phase 2 implementation does not require authentication.
 
 The REST endpoint is intended for local development and demonstration purposes. Requests can be submitted directly without API keys, bearer tokens, or other authentication mechanisms.
 
-Future production implementations should secure the API using an appropriate authentication and authorization mechanism.
-
 ## Endpoint Summary
 
 The Phase 2 implementation exposes a single REST endpoint for submitting API incident events to the monitoring workflow.
@@ -70,43 +70,40 @@ The Spring Boot controller accepts the JSON request body as an `IncidentEvent` o
 
 ### Request Body
 
-The request body is submitted in JSON format and is mapped to the `IncidentEvent` model.
+The request body is submitted in JSON format and is mapped to the `IncidentEvent` model. The Spring Boot application forwards the incident to the n8n workflow, where the required fields are validated before further processing.
 
-| Field | Data Type | Expected | Description |
-|-------|-----------|----------|-------------|
-| `serviceName` | String | Yes | Name of the service where the incident occurred. |
-| `endpoint` | String | Yes | API endpoint associated with the failed request. |
-| `httpMethod` | String | Yes | HTTP method used for the request. |
-| `statusCode` | Integer | Yes | HTTP response status code returned by the failed request. |
-| `responseTimeMs` | Long | Yes | Response time of the request in milliseconds. |
-| `errorMessage` | String | Yes | Error message describing the failure. |
-| `stackTrace` | String | Yes | Stack trace captured for diagnostic purposes. |
+| Field          | Data Type | Required by Workflow | Description                                               |
+| -------------- | --------- | -------------------- | --------------------------------------------------------- |
+| serviceName    | String    | Yes                  | Name of the service where the incident occurred.          |
+| endpoint       | String    | Yes                  | API endpoint associated with the failed request.          |
+| httpMethod     | String    | No                   | HTTP method used for the request.                         |
+| statusCode     | Integer   | Yes                  | HTTP response status code returned by the failed request. |
+| responseTimeMs | Long      | No                   | Response time in milliseconds.                            |
+| errorMessage   | String    | No                   | Error message describing the failure.                     |
+| stackTrace     | String    | No                   | Stack trace captured for diagnostics.                     |
+
 
 ### Sample Request
 
-```json
 {
   "serviceName": "Order Service",
   "endpoint": "/api/orders",
   "httpMethod": "POST",
   "statusCode": 500,
-  "responseTimeMs": 1250,
-  "errorMessage": "Internal Server Error",
-  "stackTrace": "java.lang.NullPointerException at com.farha.devstream.service.OrderService.processOrder(OrderService.java:45)"
+  "responseTimeMs": 2400,
+  "errorMessage": "NullPointerException while creating order",
+  "stackTrace": "java.lang.NullPointerException at OrderService.createOrder(OrderService.java:45)"
 }
 
-
 ### Success Response
 
-Your controller returns HTTP `200 OK` with a plain-text response, not JSON.
-
-```markdown
-### Success Response
-
-When the incident is accepted and forwarded to the notification service, the API returns HTTP status `200 OK`.
+When the request is successfully handled and forwarded to the n8n notification service, the API returns HTTP status `200 OK`.
 
 #### Example Response
 
 ```text
 Incident received and forwarded to n8n from Order Service
+```
+
+
 
