@@ -104,7 +104,7 @@ DevStream uses PostgreSQL as its primary persistence layer to store API failure 
 
 The complete database schema, ER diagram, table definitions, relationships, and SQL scripts are available in:
 
-📄 **docs/phase2/database.md**
+📄 [Phase 2 database documentation](docs/phase2/database.md)
 
 ---
 
