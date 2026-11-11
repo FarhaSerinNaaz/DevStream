@@ -70,7 +70,7 @@ This automated workflow minimizes repetitive investigation tasks, standardizes i
 - Automated email notifications
 - Modular architecture for future enhancements
 
-## System Workflow
+## Phase 2 System Workflow
 
 DevStream processes API failures through an automated workflow that combines backend services, workflow orchestration, artificial intelligence, and persistent storage.
 
@@ -81,6 +81,8 @@ This workflow provides a consistent, repeatable process for incident analysis wh
 ### Workflow Diagram
 
 ![DevStream Phase 2 Workflow](images/workflow-phase-2.png)
+
+For incident grouping, AI retries, and Smart Notifications, see the [Phase 3 implementation overview](docs/phase3/overview.md).
 
 ## Technology Stack
 
@@ -117,6 +119,9 @@ Comprehensive technical documentation is available for every major component of 
 | `docs/phase2/api.md` | REST API endpoints, request/response models, and integration details |
 | `docs/phase2/database.md` | Database schema, relationships, and SQL scripts |
 | `docs/phase2/workflow.md` | End-to-end workflow execution and node-level explanation |
+| [Phase 3 database reference](docs/phase3/database.md) | Monitoring tables, constraints, and verification SQL |
+| [Phase 3 Grafana dashboards](docs/phase3/dashboards.md) | Seven dashboards and 59 panel queries |
+| [Phase 3 release verification](docs/phase3/release-verification.md) | End-to-end regression and database cleanup evidence |
 
 ---
 
@@ -125,8 +130,10 @@ Comprehensive technical documentation is available for every major component of 
 ```text
 DevStream/
 ├── database/
+│   └── phase3/
 ├── docs/
-│   └── phase2/
+│   ├── phase2/
+│   └── phase3/
 ├── images/
 ├── workflow/
 │   ├── DevStream_AI_Incident_Monitoring.json
@@ -163,7 +170,6 @@ DevStream/
 - Enhanced AI analysis
 - Smarter notifications
 - Grafana dashboards
-
 
 ---
 
