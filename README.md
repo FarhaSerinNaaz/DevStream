@@ -114,11 +114,11 @@ Comprehensive technical documentation is available for every major component of 
 
 | Document | Description |
 |----------|-------------|
-| `docs/phase2/README.md` | Engineering Design Document for Release 2 |
-| `docs/phase2/architecture.md` | System architecture and component interactions |
-| `docs/phase2/api.md` | REST API endpoints, request/response models, and integration details |
-| `docs/phase2/database.md` | Database schema, relationships, and SQL scripts |
-| `docs/phase2/workflow.md` | End-to-end workflow execution and node-level explanation |
+| [Phase 2 engineering overview](docs/phase2/README.md) | Engineering design document for Release 2 |
+| [Phase 2 architecture](docs/phase2/architecture.md) | System architecture and component interactions |
+| [Phase 2 API](docs/phase2/api.md) | REST endpoints, request and response models, and integration details |
+| [Phase 2 database](docs/phase2/database.md) | Database schema, relationships, and SQL scripts |
+| [Phase 2 workflow](docs/phase2/workflow.md) | Workflow execution and node details |
 | [Phase 3 database reference](docs/phase3/database.md) | Monitoring tables, constraints, and verification SQL |
 | [Phase 3 Grafana dashboards](docs/phase3/dashboards.md) | Seven dashboards and 59 panel queries |
 | [Phase 3 release verification](docs/phase3/release-verification.md) | End-to-end regression and database cleanup evidence |
