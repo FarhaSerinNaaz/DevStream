@@ -2,8 +2,8 @@
 
 ![Phase 3](https://img.shields.io/badge/Phase_3-Implementation_Complete-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-Backend-6DB33F)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791)
 ![n8n](https://img.shields.io/badge/n8n-Workflow-EA4B71)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
