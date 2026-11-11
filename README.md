@@ -1,6 +1,6 @@
 # DevStream
 
-![Release](https://img.shields.io/badge/Release-v2-blue)
+![Phase 3](https://img.shields.io/badge/Phase_3-Implementation_Complete-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791)
@@ -18,6 +18,18 @@ DevStream is an AI-powered backend incident monitoring platform designed to auto
 The platform integrates a Spring Boot backend with an n8n workflow to capture API failures, validate incoming requests, generate AI-assisted analysis using Google Gemini, store monitoring data in PostgreSQL, and send email notifications based on incident severity.
 
 By combining backend engineering, workflow automation, artificial intelligence, and persistent data storage, DevStream transforms a traditionally manual debugging process into a structured, repeatable, and scalable monitoring solution.
+
+---
+
+## DevStream by Phase
+
+| Phase | What I built | Explore |
+|---|---|---|
+| **Phase 1 — AI Monitoring** | Built an n8n workflow that validates API failure reports, analyzes them with Gemini, stores results in PostgreSQL, and sends severity-based email alerts. | [Phase 1 workflow](workflow/DevStream_AI_Incident_Monitoring.json) |
+| **Phase 2 — Spring Boot Integration** | Added a Java and Spring Boot REST API that receives failure reports and forwards them to the existing n8n workflow. Documented the architecture, API, database, and workflow. | [Phase 2 engineering docs](docs/phase2/README.md) · [Phase 2 workflow](workflow/DevStream_AI_Incident_Monitoring_Phase2.json) |
+| **Phase 3 — AI Incident Management** | Added fingerprint-based incident grouping, lifecycle and assignment tracking, AI orchestration and retries, reusable incident knowledge, Smart Notifications, and seven Grafana dashboards. | [Phase 3 engineering docs](docs/phase3/README.md) · [Release verification](docs/phase3/release-verification.md) |
+
+**Phase 3 regression:** `/test-error` produced failure `100`, which linked to incident `7` and reached AI status `COMPLETED`. Notification history entry `51` recorded duplicate suppression for incident `7`.
 
 ---
 
@@ -128,9 +140,7 @@ DevStream/
 
 ## Project Status
 
-**Current Release:** Release 2 – Spring Boot Integration
-
-Release 2 establishes the backend foundation of DevStream by integrating Spring Boot with the AI-powered monitoring workflow. Future releases will extend the platform with incident fingerprinting, knowledge management, enhanced analytics, and production-ready deployment capabilities.
+**Phase 3 implementation and final end-to-end regression are complete.** Release preparation is in progress. The demo, presentation, and portfolio and staging deployment are still ahead.
 
 ## Roadmap
 
@@ -140,13 +150,13 @@ Release 2 establishes the backend foundation of DevStream by integrating Spring 
 - PostgreSQL persistence
 - Email notifications
 
-### 🚧 Release 2 – Spring Boot Integration (Current)
+### ✅ Release 2 – Spring Boot Integration
 - Spring Boot REST API integration
 - End-to-end backend workflow
 - Improved documentation
 - Modular project structure
 
-### 🔜 Release 3 – AI Incident Management
+### ✅ Release 3 – AI Incident Management (Implementation Complete)
 - Incident fingerprinting
 - Incident deduplication
 - Knowledge Base
@@ -154,12 +164,6 @@ Release 2 establishes the backend foundation of DevStream by integrating Spring 
 - Smarter notifications
 - Grafana dashboards
 
-### 🔜 Release 4 – Production Readiness
-- Docker
-- Spring Security
-- Automated testing
-- CI/CD pipeline
-- Deployment
 
 ---
 
