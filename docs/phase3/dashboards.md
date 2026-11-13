@@ -99,6 +99,8 @@ ORDER BY 1;
 
 ## 2. Incident Lifecycle and Resolution
 
+![Incident Lifecycle and Resolution dashboard](../../images/phase3/incident-lifecycle-and-resolution.png)
+
 ### Reopened Incidents
 
 ```sql
@@ -176,6 +178,8 @@ ORDER BY transition_count DESC;
 These history queries count transitions. An incident can contribute more than one transition.
 
 ## 3. AI Processing and Reliability
+
+![AI Processing and Reliability dashboard](../../images/phase3/ai-processing-and-reliability.png)
 
 ### AI Analyses Completed
 
@@ -293,6 +297,8 @@ The average uses non-null stored confidence values. It represents AI-reported co
 
 ## 4. Knowledge Base and Incident Patterns
 
+![Knowledge Base and Incident Patterns dashboard](../../images/phase3/knowledge-base-and-incident-patterns.png)
+
 ### Knowledge Base Entries
 
 ```sql
@@ -381,6 +387,8 @@ ORDER BY updated_at;
 This shows each entry's current last-update timestamp, rather than a complete history of knowledge updates.
 
 ## 5. Notifications and Alerting
+
+![Notifications and Alerting dashboard](../../images/phase3/notifications-and-alerting.png)
 
 ### Notifications Sent
 
@@ -484,6 +492,8 @@ Notification history references incidents rather than individual failure IDs.
 
 ## 6. Failure and Service Analytics
 
+![Failure and Service Analytics dashboard](../../images/phase3/failure-and-service-analytics.png)
+
 ### Total API Failures
 
 ```sql
@@ -570,6 +580,8 @@ LIMIT 10;
 ```
 
 ## 7. Operational Health
+
+![Operational Health dashboard](../../images/phase3/operational-health.png)
 
 ### Active Incidents
 
