@@ -37,7 +37,11 @@ By combining backend engineering, workflow automation, artificial intelligence, 
 
 A 21-second walkthrough of Phase 3: API failure capture, incident grouping, AI analysis, and duplicate alert suppression, followed by a look at the Grafana dashboards.
 
-https://github.com/user-attachments/assets/3709a850-9200-4fdf-ae28-1187d77f1e55
+
+
+https://github.com/user-attachments/assets/22e83e35-e091-4022-99a9-44f960aac82f
+
+
 
 ## Business Problem
 
