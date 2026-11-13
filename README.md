@@ -33,6 +33,12 @@ By combining backend engineering, workflow automation, artificial intelligence, 
 
 ---
 
+## Demo
+
+A 21-second walkthrough of Phase 3: API failure capture, incident grouping, AI analysis, and duplicate alert suppression, followed by a look at the Grafana dashboards.
+
+https://github.com/user-attachments/assets/3709a850-9200-4fdf-ae28-1187d77f1e55
+
 ## Business Problem
 
 Modern applications rely on APIs to connect services, exchange data, and power business operations. When an API request fails, engineers often need to manually inspect logs, request payloads, error messages, and system responses before identifying the root cause.
