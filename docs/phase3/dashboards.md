@@ -34,6 +34,8 @@ The SQL below contains no passwords, API keys, database connection strings, or p
 
 ## 1. Incident Overview
 
+![Grafana Incident Overview dashboard](../../images/phase3/incident-overview.png)
+
 ### Total Incidents
 
 ```sql
