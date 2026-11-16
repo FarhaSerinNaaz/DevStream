@@ -31,7 +31,7 @@ Application logic controls incident grouping and operational state. AI supplies 
 
 ![DevStream Phase 3 n8n workflow showing incident intake, AI orchestration, and the webhook response](../../images/phase3/workflow-phase-3.png)
 
-[View the Phase 3 n8n workflow JSON](<../../workflow/phase3/DevStream_AI_Incident_Orchestration_Phase 3.json>)
+[View the Phase 3 n8n workflow JSON](<../../workflow/DevStream_AI_Incident_Orchestration_Phase 3.json>)
 
 ## Incident Management
 
