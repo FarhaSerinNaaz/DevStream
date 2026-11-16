@@ -1,0 +1,359 @@
+{
+  "name": "DevStream – AI Incident Orchestration – Phase 3",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "devstream-phase3-example",
+        "responseMode": "=responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d27e1588-6d6b-4877-95d1-d47e8a6c501a",
+      "name": "Webhook"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        464,
+        240
+      ],
+      "id": "76d57eef-e0b1-4e6b-b852-4ec52c78627f",
+      "name": "Coordinator_Gemini_Model"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        448
+      ],
+      "id": "5d79494f-98ae-4940-afb4-78fd21cbdde2",
+      "name": "Incident_Analysis_Gemini_Model"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{$json.prompt}}",
+        "options": {
+          "systemMessage": "You are the Incident_Coordinator_Agent for DevStream.\n\nYou are the master orchestration agent.\n\nYour responsibilities are:\n1. Receive the incident context.\n2. Delegate incident diagnosis to the INCIDENT_ANALYSIS_AGENT tool.\n3. Delegate historical incident lookup to the KNOWLEDGE_BASE_AGENT tool.\n4. Combine the specialist outputs.\n5. Produce one final operational recommendation.\n\nImportant boundaries:\n- Do not change incident severity.\n- Do not perform deduplication.\n- Do not create or reopen incidents.\n- Do not change lifecycle status.\n- Do not override deterministic Java business logic.\n- AI provides recommendations only.\n- Use specialist tools when their information is required.\n- If a specialist tool fails or returns insufficient information, state that clearly.\n\nReturn valid JSON only.\nDo not include markdown.\nDo not include code fences.\n\nFINAL OUTPUT CONTRACT\n\nReturn exactly one valid JSON object.\n\nDo not use Markdown.\nDo not use code fences.\nDo not add explanatory text before or after the JSON.\n\nUse this exact structure:\n\n{\n  \"failureId\": <failure ID from the incident context>,\n  \"incidentId\": <incident ID from the incident context>,\n  \"analysis\": {\n    \"rootCause\": \"<root cause returned by Incident_Analysis_Agent>\",\n    \"javaFix\": \"<Java/backend fix returned by Incident_Analysis_Agent>\",\n    \"unitTest\": \"<unit or integration test recommendation>\",\n    \"bestPractice\": \"<backend engineering best practice>\",\n    \"confidenceScore\": <number between 0.0 and 1.0>\n  },\n  \"knowledgeBase\": {\n    \"status\": \"COMPLETED\",\n    \"matchFound\": <true or false>,\n    \"summary\": \"<historical knowledge summary or no-match explanation>\",\n    \"confidenceScore\": <number between 0.0 and 1.0>\n  },\n  \"coordinator\": {\n    \"status\": \"COMPLETED\",\n    \"finalRecommendation\": \"<combined operational recommendation>\",\n    \"recommendedAction\": \"<CREATE_INCIDENT | LOG_ONLY | RETRY | ESCALATE>\",\n    \"confidenceScore\": <number between 0.0 and 1.0>\n  }\n}\n\nRules:\n- Never invent historical knowledge.\n- If no knowledge-base match exists, set matchFound to false.\n- recommendedAction must be exactly one of:\n  CREATE_INCIDENT\n  LOG_ONLY\n  RETRY\n  ESCALATE\n- AI recommendations are advisory only.\n- Do not perform deterministic incident creation, deduplication, lifecycle changes, severity changes, or reopening decisions.\n- If a specialist agent fails, clearly represent that failure instead of fabricating its result."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        592,
+        0
+      ],
+      "id": "d9f71b67-8849-48b6-8c43-e091e83dbbcc",
+      "name": "Incident_Coordinator_Agent"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Specialist DevStream agent for analyzing backend API failures.\n\nUse this tool when you need:\n- root cause analysis\n- recommended Java/Spring fix\n- unit test suggestion\n- backend engineering best practice\n- confidence score\n- recommended action\n\nThis agent only analyzes and recommends.\nIt must not change severity, deduplicate incidents, create incidents,\nor change incident lifecycle status.",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "You are the Incident_Analysis_Agent for DevStream.\n\nYou are a specialist backend incident analysis agent.\n\nAnalyze only the incident/failure information provided to you.\n\nYour responsibilities are:\n1. Identify the most likely root cause.\n2. Recommend a practical Java/Spring fix.\n3. Suggest an appropriate unit test.\n4. Recommend a backend engineering best practice.\n5. Provide a confidence score between 0 and 1.\n6. Recommend exactly one action from:\n   CREATE_INCIDENT\n   LOG_ONLY\n   RETRY\n   ESCALATE\n\nImportant boundaries:\n- Do not change incident severity.\n- Do not perform incident deduplication.\n- Do not create, reopen, resolve, or close incidents.\n- Do not change incident lifecycle status.\n- Do not override deterministic Java business logic.\n- If the available information is insufficient, clearly state the uncertainty.\n\nReturn ONLY valid JSON in exactly this structure:\n\n{\n  \"rootCause\": \"string\",\n  \"javaFix\": \"string\",\n  \"unitTest\": \"string\",\n  \"bestPractice\": \"string\",\n  \"confidenceScore\": 0.0,\n  \"recommendedAction\": \"CREATE_INCIDENT\"\n}\n\nDo not include markdown.\nDo not include code fences.\nDo not include text before or after the JSON."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        592,
+        240
+      ],
+      "id": "fb14d668-390b-41e1-a5a9-d078dee4236d",
+      "name": "Incident_Analysis_Agent"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58ea9438-cd05-4af8-8535-63b2da068c25",
+              "name": "prompt",
+              "value": "={{ `DevStream incident context:\n\nFailure ID: ${$json.body.failureId}\nIncident ID: ${$json.body.incidentId}\nService: ${$json.body.serviceName}\nEndpoint: ${$json.body.endpoint}\nHTTP Status Code: ${$json.body.statusCode}\nError Message: ${$json.body.errorMessage}\nSeverity: ${$json.body.severity}` }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "1c195797-4156-4b26-a858-2f1e8fa385b2",
+      "name": "Build Incident Context"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Specialist DevStream agent for retrieving and interpreting historical incident knowledge.\n\nUse this tool when you need:\n- similar historical incidents\n- previous root causes\n- known resolutions\n- recurring patterns\n- reusable troubleshooting knowledge\n\nThis agent uses approved knowledge-base data only.\nIt provides historical context and recommendations.\nIt must not change severity, deduplicate incidents, create incidents,\nor change incident lifecycle status.",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "You are the Knowledge_Base_Agent for DevStream.\n\nYou are a specialist historical incident knowledge agent.\n\nYour responsibility is to use the available DevStream knowledge-base tool\nto find relevant historical incidents, previous resolutions, and recurring patterns.\n\nYour responsibilities are:\n1. Search for historical information relevant to the current incident.\n2. Identify similar incidents or known patterns.\n3. Summarize previous root causes when relevant.\n4. Surface previous resolutions or troubleshooting guidance.\n5. Explain how strongly the historical evidence matches the current incident.\n6. Provide a confidence score between 0 and 1.\n\nImportant boundaries:\n- Do not invent historical incidents.\n- Do not claim a match unless supported by retrieved knowledge-base data.\n- Do not change incident severity.\n- Do not perform deduplication.\n- Do not create, reopen, resolve, or close incidents.\n- Do not override deterministic Java business logic.\n- If no useful historical match exists, clearly state that.\n\nReturn concise structured information suitable for the Incident_Coordinator_Agent."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        880,
+        240
+      ],
+      "id": "42ee0767-8724-4df5-a9ed-374db539783f",
+      "name": "Knowledge_Base_Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        448
+      ],
+      "id": "f6545bb9-77cd-4a5f-9d4c-0c202ece68f5",
+      "name": "Knowledge_Base_Gemini_Model"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Search the DevStream incident knowledge base for relevant historical incidents,\nroot causes, recommended solutions, and prevention steps.\nUse this tool only for retrieving knowledge. Do not modify database records.",
+        "operation": "executeQuery",
+        "query": "WITH current_incident AS (\n    SELECT\n        incident_fingerprint,\n        service_name,\n        endpoint,\n        status_code\n    FROM monitoring.incidents\n    WHERE incident_id = $1\n)\nSELECT\n    kb.knowledge_id,\n    kb.incident_fingerprint,\n    kb.service_name,\n    kb.endpoint,\n    kb.status_code,\n    kb.error_message,\n    kb.root_cause,\n    kb.recommended_solution,\n    kb.prevention_steps,\n    kb.usage_count,\n    kb.last_used_at,\n    CASE\n        WHEN kb.incident_fingerprint = ci.incident_fingerprint\n            THEN 'EXACT_FINGERPRINT'\n        ELSE 'SERVICE_ENDPOINT_STATUS'\n    END AS match_type\nFROM monitoring.incident_knowledge_base kb\nCROSS JOIN current_incident ci\nWHERE kb.is_active = true\n  AND (\n        kb.incident_fingerprint = ci.incident_fingerprint\n        OR (\n            kb.service_name = ci.service_name\n            AND kb.endpoint = ci.endpoint\n            AND kb.status_code = ci.status_code\n        )\n      )\nORDER BY\n    CASE\n        WHEN kb.incident_fingerprint = ci.incident_fingerprint THEN 0\n        ELSE 1\n    END,\n    kb.updated_at DESC\nLIMIT 5;",
+        "options": {
+          "queryReplacement": "={{ $('Webhook').item.json.body.incidentId }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.7,
+      "position": [
+        1024,
+        448
+      ],
+      "id": "42b55435-4388-4ac6-8dd5-558ca6883e2f",
+      "name": "Search_Incident_Knowledge_Base"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.parse($json.output) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1232,
+        0
+      ],
+      "id": "ae80310f-a1a4-4c1d-841d-afc2ee0e3271",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "content": "Failure Intake\n\nReceives failureId, incidentId, serviceName, endpoint,  HTTP status, error message, severity\n\nTriggered by Spring Boot Phase 3 backend\n",
+        "height": 272,
+        "width": 288,
+        "color": "#92CBE8"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        640
+      ],
+      "id": "17113781-30fe-4d6c-b016-8a4ab9e2dc12",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Multi-Agent AI Orchestration\n\nIncident_Coordinator_Agent is the master orchestrator\n\nDelegates diagnosis to Incident_Analysis_Agent\n\nDelegates historical lookup to Knowledge_Base_Agent\n\nAI provides recommendations only; deterministic backend logic remains in Java",
+        "height": 320,
+        "width": 400,
+        "color": "#6EE444"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        64,
+        640
+      ],
+      "id": "f98a472b-cd84-4d01-adef-1d931f5d1674",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Knowledge Base Retrieval\n\nReads historical incident knowledge from Neon PostgreSQL\n\nUses deterministic incidentId from webhook input\n\nRead-only lookup\nNo historical match is a valid result\n\nNever invent historical evidence",
+        "height": 288,
+        "width": 416,
+        "color": "#A43D3D"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        832,
+        640
+      ],
+      "id": "f56e5109-9f94-40ee-bee4-769c7b8734d8",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Response Contract\n\nReturns structured JSON to Spring Boot\n\nContains failureId, incidentId, analysis, knowledgeBase, coordinator\n\nrecommendedAction: CREATE_INCIDENT | LOG_ONLY | RETRY | ESCALATE\n\nSpring persists AI results before marking ai_status = COMPLETED",
+        "height": 304,
+        "width": 464,
+        "color": "#F7E73B"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        640
+      ],
+      "id": "c227c957-fe94-4b3b-830a-24cf38a069ad",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "AI Model: Gemini 2.5 Flash\n\nStable model used for all 3 agents",
+        "width": 256,
+        "color": "#DC7AF0"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        544,
+        640
+      ],
+      "id": "92edd42d-73f2-403b-bc7a-d695b39e8d38",
+      "name": "Sticky Note4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Build Incident Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Coordinator_Gemini_Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Incident_Coordinator_Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Incident_Analysis_Gemini_Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Incident_Analysis_Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Incident_Coordinator_Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Incident_Analysis_Agent": {
+      "ai_tool": [
+        [
+          {
+            "node": "Incident_Coordinator_Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Incident Context": {
+      "main": [
+        [
+          {
+            "node": "Incident_Coordinator_Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Knowledge_Base_Agent": {
+      "ai_tool": [
+        [
+          {
+            "node": "Incident_Coordinator_Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Knowledge_Base_Gemini_Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Knowledge_Base_Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search_Incident_Knowledge_Base": {
+      "ai_tool": [
+        [
+          {
+            "node": "Knowledge_Base_Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "nodeGroups": [],
+  "tags": []
+}
