@@ -27,6 +27,10 @@ Phase 3 extends the Spring Boot and n8n integration established in Phase 2 with 
 
 Application logic controls incident grouping and operational state. AI supplies analysis and recommendations.
 
+## Phase 3 n8n Workflow
+
+![DevStream Phase 3 n8n workflow showing incident intake, AI orchestration, and the webhook response](../../images/phase3/workflow-phase-3.png)
+
 ## Incident Management
 
 Phase 3 supports:
