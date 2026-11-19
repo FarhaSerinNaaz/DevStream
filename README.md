@@ -155,7 +155,9 @@ DevStream/
 
 ## Project Status
 
-**Phase 3 implementation and final end-to-end regression are complete.** Release preparation is in progress. The demo, presentation, and portfolio and staging deployment are still ahead.
+Phase 3 implementation, final regression, documentation, demo, and presentation are complete.
+
+Staging deployment is deferred. The public repository contains documentation, dashboard screenshots, cleaned workflow exports, and a recorded demo. The full Java backend source is maintained in a separate private repository.
 
 ## Roadmap
 
